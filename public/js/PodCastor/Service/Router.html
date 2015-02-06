@@ -1,0 +1,38 @@
+<!--
+Service Router
+@Author Josselin CHEVALAY <josselin54.chevalay@gmail.com
+@package js/Podcastor/Service/
+-->
+<link rel="import" href="../../../libs/polymer/polymer.html">
+<link rel="import" href="../../../libs/core-ajax/core-ajax.html">
+
+
+<polymer-element name="service-router" attribute="">
+  <template>
+  <style>
+  :host{
+    display: none
+  }
+  </style>
+</template>
+<script>
+Polymer("service-router", {
+  ready: function(){
+
+  },
+  /**
+  * Routes
+  */
+  Routes: {
+    'login': {
+      elementName: 'view-login',
+      authorized:false
+    },
+    'accueil': {
+      elementName:'view-acceuil',
+      authorized:true
+    }
+  },
+});
+</script>
+</polymer-element>

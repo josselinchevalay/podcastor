@@ -1,0 +1,44 @@
+<!--
+View AppMenu
+@Author Josselin CHEVALAY <josselin54.chevalay@gmail.com
+@package js/Podcastor/Views/
+-->
+<link rel="import" href="../../../libs/polymer/polymer.html">
+
+
+<link rel="import" href="../../../libs/font-roboto/roboto.html"/>
+
+<link rel="import" href="../../../libs/paper-elements/paper-elements.html"/>
+<link rel="import" href="../../../libs/core-elements/core-elements.html"/>
+
+<polymer-element name="view-appmenu" attribute="">
+  <template>
+  <style>
+  </style>
+  <div>
+    <core-menu  selected="0">
+      <template bind if="{{app.Storage.User}}">
+        <core-submenu id="core_submenu"  label="Account">
+          <core-item id="core_item"  label="Podcast" ></core-item>
+          <core-item id="core_item1" label="FM"      ></core-item>
+        </core-submenu>
+      </template>
+      <core-submenu id="core_submenu1" label="App" >
+        <core-item id="core_item2" label="Favorite 1" ></core-item>
+        <core-item id="core_item3" label="Favorite 2" ></core-item>
+        <core-item id="core_item4" label="Favorite 3" ></core-item>
+      </core-submenu>
+    </core-menu>
+</template>
+    <script>
+    Polymer("view-appmenu", {
+      ready: function(){
+        this.app = document.getElementById('app');
+      },
+      changeContext : function(e){
+        console.log(e);
+        return;
+      }
+    });    
+    </script>
+  </polymer-element>

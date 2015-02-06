@@ -1,0 +1,54 @@
+<!--
+Service Fm
+@Author Josselin CHEVALAY <josselin54.chevalay@gmail.com
+@package js/Podcastor/Model/
+-->
+<link rel="import" href="../../../libs/polymer/polymer.html">
+<link rel="import" href="../../../libs/core-ajax/core-ajax.html">
+<polymer-element name="service-fm" attribute="">
+  <template>
+    <style>
+      :host{
+        display: none
+      }
+    </style>
+  </template>
+  <script>
+    Polymer("service-fm", {
+      ready : function(){
+        this.URL = "/api/fm";
+        this.fm = []
+        this.get();
+      },
+      post: function(entity){
+        var self = this;
+        var Ajax = document.createElement("core-ajax");
+        ajax.method = "POST";
+        ajax.url = this.URL;
+        ajax.params = entity;
+        ajax.go();
+      },
+      get: function(req){
+        var self = this;
+        var Ajax = document.createElement("core-ajax");
+        ajax.method = "GET";
+        ajax.url = this.URL;
+        ajax.params = req;
+        ajax.go();
+        ajax.addEventListener("core-response", function(data){
+          this.fm = data;
+          self.fire("service-fm-get");
+        });
+      },
+      put: function(){
+
+      },
+      remove: function(){
+
+      },
+      createEntity: function(){
+        return document.createElement("model-fm");
+      }
+    });
+  </script>
+</polymer-element>

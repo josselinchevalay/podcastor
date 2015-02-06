@@ -1,0 +1,112 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>
+  PodCastor
+</title>
+
+
+
+
+<!--[if IE]>
+<script type="text/javascript" src="./HTMLImports.min.js"></script>
+<script type="text/javascript" src="./shadowDOM.min.js"></script>
+<script type="text/javascript" src="./CustomElements.min.js"></script>
+<![enif]-->
+<script src="../libs/platform/platform.js">
+</script>
+
+
+<link rel="import" href="../libs/font-roboto/roboto.html"/>
+
+<link rel="import" href="../libs/paper-elements/paper-elements.html"/>
+<link rel="import" href="../libs/core-elements/core-elements.html"/>
+
+
+
+
+
+
+<!-- Views !-->
+<link rel="import" href="../js/PodCastor/Views/login.html"/>
+<link rel="import" href="../js/PodCastor/Views/User.html"/>
+<link rel="import" href="../js/PodCastor/Views/AppMenu.html"/>
+<link rel="import" href="../js/PodCastor/Views/Accueil.html"/>
+
+<!-- Service !-->
+<link rel="import" href="../js/PodCastor/Service/App.html"/>
+
+<style>
+<style>
+
+      #sidebar-menu {
+        width: 15%;
+        height: 100%;
+        position: absolute;
+        display: block;
+        background-color: rgb(243, 243, 243);
+      }
+      #section2 {
+        top: 0%;
+        height: 35%;
+        left: 15%;
+        width: 85%;
+        position: absolute;
+        display: block;
+        background-color: rgb(5, 111, 252);
+      }
+      #section3 {
+        left: 15%;
+        position: absolute;
+        top: 35%;
+        width: 85%;
+        height: 65%;
+        background-color: rgb(240, 240, 238);
+      }
+      #paper_item {
+        left: 0%;
+        top: 50%;
+        width: 70%;
+      }
+      #paper_item1 {
+        left: 0%;
+        top: 0%;
+        position: absolute;
+      }
+      #core_icon {
+        left: 90%;
+        top: 9%;
+        position: absolute;
+      }
+      #core_menu {
+        font-size: 16px;
+        left: 0%;
+        top: 5%;
+        position: absolute;
+        width: 100%;
+        height: 35%;
+      }
+      #notification{
+        left: 50%;
+      }
+    </style>
+</style>
+</head>
+<body unresolved>
+      <service-app id="app"></service-app>
+      <paper-toast id="notification"></paper-toast>
+      <section id="core-menu">
+        <h1>PodCastor</h1>
+        <view-user></view-user>
+        <view-appmenu></view-appmenu>
+      </section>
+      <section id="section2">
+        <h1 id="paper_item"  horizontal layout one flex>Share Your Podcast</h1>
+        <core-icon icon="search" id="core_icon"></core-icon>
+      </section>
+      <section id="section3">
+          <!--<view-login></view-login>-->
+      </section>
+</body>
+</html>

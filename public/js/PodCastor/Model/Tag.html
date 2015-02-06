@@ -1,0 +1,22 @@
+<!--
+Model User
+@Author Josselin CHEVALAY <josselin54.chevalay@gmail.com
+@package js/Podcastor/Model/
+-->
+<link rel="import" href="../../../libs/polymer/polymer.html">
+<polymer-element name="model-tag" attribute="Type, Uid, Lib">
+  <template>
+    <style>
+      :host{
+        display: none
+      }
+    </style>
+  </template>
+  <script>
+    Polymer("model-tag", {
+      Type: "Tag",
+      Uid: null,
+      Lib: null
+    });
+  </script>
+</polymer-element>

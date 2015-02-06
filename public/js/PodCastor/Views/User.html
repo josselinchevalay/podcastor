@@ -1,0 +1,28 @@
+<!--
+View login
+@Author Josselin CHEVALAY <josselin54.chevalay@gmail.com
+@package js/Podcastor/Views/
+-->
+<link rel="import" href="../../../libs/polymer/polymer.html">
+
+<polymer-element name="view-user" attribute="">
+  <template>
+    <style>
+    </style>
+    <div>
+      <template bind if="{{app.Storage.User}}">
+        <h1>Hi {{app.Storage.User.Pseudo}} </h1>
+      </template>
+      <template bind if="{{!app.Storage.User}}">
+        <h3>connect you ! </h3>
+      </template>
+    <div>
+  </template>
+  <script>
+    Polymer("view-user", {
+      ready: function(){
+        this.app = document.getElementById('app');
+      },
+    });
+  </script>
+</polymer-element>

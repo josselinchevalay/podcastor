@@ -1,0 +1,90 @@
+<!--
+Service User
+@Author Josselin CHEVALAY <josselin54.chevalay@gmail.com
+@package js/Podcastor/Service/
+-->
+
+
+<link rel="import" href="../../../libs/polymer/polymer.html">
+<link rel="import" href="../../../libs/core-ajax/core-ajax.html">
+<link rel="import" href="../Service/Credential.html">
+<link rel="import" href="../Model/User.html">
+<polymer-element name="service-user" attribute="">
+  <template>
+    <style>
+      :host{
+        display: none
+      }
+    </style>
+  </template>
+  <script>
+    Polymer("service-user", {
+      ready : function(){
+        this.app = document.getElementById('app');
+        this.URL = "/api/user";
+        this.users = []
+        this.get();
+      },
+      post: function(entity){
+        var self = this;
+        var Ajax = document.createElement("core-ajax");
+        ajax.method = "POST";
+        ajax.url = this.URL;
+        ajax.params = entity;
+        ajax.go();
+      },
+      get: function(req){
+        var self = this;
+        var ajax = document.createElement("core-ajax");
+        ajax.method = "GET";
+        ajax.url = this.URL;
+        ajax.params = req;
+        ajax.go();
+        ajax.addEventListener("core-response", function(data){
+          self.users = data;
+          self.app.fire("service-user-get");
+        });
+      },
+      put: function(){
+
+      },
+      remove: function(){
+
+      },
+      createEntity: function(){
+        var user = document.createElement("model-user");
+        var credentialService = document.createElement("service-credential");
+        user.Credentials = credentialService.createEntity();
+        return user;
+      },
+      convertToJson: function(obj){
+        var temp = {};
+        var credentialService = document.createElement("service-credential");
+        if(obj && obj.Type == "User"){          
+          temp.Type = obj.Type;
+          temp.Uid = obj.Uid;
+          temp.Pseudo = obj.Pseudo;
+          temp.Credentials = {};
+          temp.Credentials = credentialService.convertToJson(obj.Credentials);      
+          temp.FMS = obj.FMS;
+          temp.Follows = obj.Follows;
+        }
+        return JSON.stringify(temp);
+      },
+      convertToEntity: function(obj){
+        var temp = this.createEntity("model-user");
+        var credentialService = document.createElement("service-credential");
+        if(obj && obj.Type == "User"){          
+          temp.Type = obj.Type;
+          temp.Uid = obj.Uid;
+          temp.Pseudo = obj.Pseudo;
+          temp.Credentials = {};
+          temp.Credentials = credentialService.convertToEntity(obj.Credentials[credential]);
+          temp.FMS = obj.FMS;
+          temp.Follows = obj.Follows;
+        }
+        return temp;
+      }
+    });
+  </script>
+</polymer-element>

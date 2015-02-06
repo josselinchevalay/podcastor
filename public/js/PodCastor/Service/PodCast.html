@@ -1,0 +1,54 @@
+<!--
+Service Podcast
+@Author Josselin CHEVALAY <josselin54.chevalay@gmail.com
+@package js/Podcastor/Model/
+-->
+<link rel="import" href="../../../libs/polymer/polymer.html">
+<link rel="import" href="../../../libs/core-ajax/core-ajax.html">
+<polymer-element name="service-podcast" attribute="">
+  <template>
+    <style>
+      :host{
+        display: none
+      }
+    </style>
+  </template>
+  <script>
+    Polymer("service-podcast", {
+      ready : function(){
+        this.URL = "/api/podcast";
+        this.users = []
+        this.get();
+      },
+      post: function(entity){
+        var self = this;
+        var Ajax = document.createElement("core-ajax");
+        ajax.method = "POST";
+        ajax.url = this.URL;
+        ajax.params = entity;
+        ajax.go();
+      },
+      get: function(req){
+        var self = this;
+        var Ajax = document.createElement("core-ajax");
+        ajax.method = "GET";
+        ajax.url = this.URL;
+        ajax.params = req;
+        ajax.go();
+        ajax.addEventListener("core-response", function(data){
+          this.user = data;
+          self.fire("service-podcast-get");
+        });
+      },
+      put: function(){
+
+      },
+      remove: function(){
+
+      },
+      createEntity: function(){
+        return document.createElement("model-podcast");
+      }
+    });
+  </script>
+</polymer-element>
