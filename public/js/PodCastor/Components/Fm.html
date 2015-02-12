@@ -4,12 +4,12 @@ Components FM
 @package js/Podcastor/Components/
 -->
 <link rel="import" href="../../../libs/polymer/polymer.html">
-<polymer-element name="components-fm" attribute="visualisation object">
+<polymer-element name="components-fm" attributes="visualisation object">
   <template>
-    <template if="{{this.visualisation == 'maxi'}}">
-      <!-- TODO foreach + display -->
+    <template if="{{visualisation == 'maxi'}}">
+      {{object['last']}}
     </template>
-    <template if="{{this.visualisation == 'mini'}}">
+    <template if="{{visualisation == 'mini'}}">
       <!-- TODO display element -->
     </template>
   </template>
