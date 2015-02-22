@@ -1,0 +1,38 @@
+{
+  "name": "podcastor",
+  "version": "0.0.0",
+  "description": "test",
+  "main": "server",
+  "directories": {
+    "test": "test"
+  },
+  "dependencies": {
+    "body-parser": "~1.9.0",
+    "cookie-parser": "~1.3.3",
+    "cookie-session": "~1.1.0",
+    "express": "~4.9.5",
+    "express-session": "~1.10.2",
+    "lowdb": "^0.7.1",
+    "method-override": "~2.2.0",
+    "node-oauth2-server": "~2.2.2",
+    "node-uuid": "~1.4.2",
+    "passport": "~0.2.1",
+    "passport-facebook": "~1.0.3",
+    "underscore": "~1.7.0",
+    "underscore-db": "~0.8.0"
+  },
+  "devDependencies": {},
+  "scripts": {
+    "test": "nodeunit",
+    "start": "node server.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/josselinchevalay/podcastor.git"
+  },
+  "author": "josselin chevalay",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/josselinchevalay/podcastor/issues"
+  }
+}
