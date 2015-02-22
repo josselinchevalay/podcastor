@@ -2,7 +2,7 @@
 * User Model
 */
 var _  = require('underscore')
-var db = require('../../config/config').Db('PodCastor');
+var db = require('../../config/config').Db('Podcastor');
 
 var cacheUser = {};
 
