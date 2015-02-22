@@ -5,7 +5,7 @@ var _   = require('underscore')
 var db  = require('../../config/config').Db('PodCastor');
 
 function all(){
-  return db.where({Type: 'Fm'}).value();
+  return db.where({type: 'Fm'});
 };
 
 function add(fm){
@@ -14,6 +14,12 @@ function add(fm){
   return;
 };
 
+function findById(id){
+  return _.find(this.all(), {uid:id});
+};
+
 module.exports = {
-  add:add
+  all:all,
+  add:add,
+  findById:findById
 };
