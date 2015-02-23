@@ -17,7 +17,6 @@ function findByUID(id){
 };
 
 function findByAuth(id){
-  console.log(this.all());
     return _.find(this.all(), {authId:id});
 };
 

@@ -79,8 +79,7 @@ app.use(methodOverride('X-HTTP-Method-Override')); // override with the X-HTTP-M
 app.use(express.static(__dirname + '/public')); // set the static files location /public/img will be /img for users
 
 // routes ==================================================
-require('./app/Routes/Oauth.js')(app, Db, passport);
-require('./app/routes')(app, Db); // configure our routes
+require('./app/routes')(app, passport); // configure our routes
 
 
 // start app ===============================================

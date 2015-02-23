@@ -2,12 +2,10 @@
 
 // grab the nerd model
 var Oauth = require('./Oauth/Oauth.js');
-module.exports = function(app, db) {
+module.exports = function(app, passport) {
 
 	// Oauth
 	var oauth = new Oauth();
-  	// db
-	var dataBase = db.Db('PodCastor');
 	// server routes ===========================================================
 	// handle things like api calls
 	// authentication routes
@@ -30,7 +28,7 @@ module.exports = function(app, db) {
 
 	/*** OAUTH ******/
 
-	
+
 
 	// signin
 	app.post('/api/oauth/signin', function(req, resp){
@@ -88,7 +86,7 @@ module.exports = function(app, db) {
 
 	// route to handle creating (app.post)
 	// route to handle delete (app.delete)
-
+	require('./Routes/Oauth.js')(app, passport);
 	// frontend routes =========================================================
 	// route to handle all angular requests
 	app.get('*', function(req, res) {
