@@ -2,29 +2,28 @@
 * User Model
 */
 var _  = require('underscore')
-var db = require('../../config/config').Db('Podcastor');
+var database = require('../../config/config');
+
+var _db = database.Db('PodCastor');
 
 var cacheUser = {};
 
 function all(){
-  return db.where({type:'User'});
+  return _db.where({type:'User'});
 };
 
-function findByUID(uid){
-  return _.find(this.all(),function(user){
-    return user.uid == uid;
-  });
+function findByUID(id){
+  return _.find(this.all(),{uid:id});
 };
 
 function findByAuth(id){
-    return _.find(this.all(), function(user){
-      return  user.authId == id;
-    });
+  console.log(this.all());
+    return _.find(this.all(), {authId:id});
 };
 
 function add(user){
-  db.push(user);
-  db.save();
+  _db.push(user);
+  database.Db.save();
   return;
 };
 

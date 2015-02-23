@@ -49,13 +49,14 @@ passport.use(new facebookStrategy({
         pseudo: profile.name,
         email: profile.email,
         fms: [],
-        type:'User'
+        type: 'User'
       };
       userModel.add(usr);
     }
-    process.nextTick(function() {
+    done(null, profile);
+    /*process.nextTick(function() {
       return done(null, profile);
-    });
+    });*/
   }
 ));
 

@@ -2,15 +2,17 @@
 *
 */
 var _   = require('underscore')
-var db  = require('../../config/config').Db('PodCastor');
+var database = require('../../config/config');
+
+var _db = database.Db('PodCastor');
 
 function all(){
-  return db.where({type: 'Fm'});
+  return _db.where({type: 'Fm'});
 };
 
 function add(fm){
-  db.push(fm);
-  db.save();
+  _db.push(fm);
+  database.Db.save();
   return;
 };
 
