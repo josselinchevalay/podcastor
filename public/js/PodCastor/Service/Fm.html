@@ -8,19 +8,19 @@ Service Fm
 <polymer-element name="service-fm" attribute="">
   <template>
     <style>
-      :host{
+      :host {
         display: none
       }
     </style>
   </template>
   <script>
     Polymer("service-fm", {
-      ready : function(){
+      ready: function() {
         this.URL = "/api/fm";
         this.fm = []
         this.get();
       },
-      post: function(entity){
+      post: function(entity) {
         var self = this;
         var Ajax = document.createElement("core-ajax");
         ajax.method = "POST";
@@ -28,25 +28,25 @@ Service Fm
         ajax.params = entity;
         ajax.go();
       },
-      get: function(req){
+      get: function(req) {
         var self = this;
         var Ajax = document.createElement("core-ajax");
         ajax.method = "GET";
         ajax.url = this.URL;
         ajax.params = req;
         ajax.go();
-        ajax.addEventListener("core-response", function(data){
+        ajax.addEventListener("core-response", function(data) {
           this.fm = data;
           self.fire("service-fm-get");
         });
       },
-      put: function(){
+      put: function() {
 
       },
-      remove: function(){
+      remove: function() {
 
       },
-      createEntity: function(){
+      createEntity: function() {
         return document.createElement("model-fm");
       }
     });

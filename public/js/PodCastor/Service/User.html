@@ -12,20 +12,20 @@ Service User
 <polymer-element name="service-user" attribute="">
   <template>
     <style>
-      :host{
+      :host {
         display: none
       }
     </style>
   </template>
   <script>
     Polymer("service-user", {
-      ready : function(){
+      ready: function() {
         this.app = document.getElementById('app');
         this.URL = "/api/user";
         this.users = []
         this.get();
       },
-      post: function(entity){
+      post: function(entity) {
         var self = this;
         var Ajax = document.createElement("core-ajax");
         ajax.method = "POST";
@@ -33,48 +33,48 @@ Service User
         ajax.params = entity;
         ajax.go();
       },
-      get: function(req){
+      get: function(req) {
         var self = this;
         var ajax = document.createElement("core-ajax");
         ajax.method = "GET";
         ajax.url = this.URL;
         ajax.params = req;
         ajax.go();
-        ajax.addEventListener("core-response", function(data){
+        ajax.addEventListener("core-response", function(data) {
           self.users = data;
           self.app.fire("service-user-get");
         });
       },
-      put: function(){
+      put: function() {
 
       },
-      remove: function(){
+      remove: function() {
 
       },
-      createEntity: function(){
+      createEntity: function() {
         var user = document.createElement("model-user");
         var credentialService = document.createElement("service-credential");
         user.Credentials = credentialService.createEntity();
         return user;
       },
-      convertToJson: function(obj){
+      convertToJson: function(obj) {
         var temp = {};
         var credentialService = document.createElement("service-credential");
-        if(obj && obj.Type == "User"){          
+        if (obj && obj.Type == "User") {
           temp.Type = obj.Type;
           temp.Uid = obj.Uid;
           temp.Pseudo = obj.Pseudo;
           temp.Credentials = {};
-          temp.Credentials = credentialService.convertToJson(obj.Credentials);      
+          temp.Credentials = credentialService.convertToJson(obj.Credentials);
           temp.FMS = obj.FMS;
           temp.Follows = obj.Follows;
         }
         return JSON.stringify(temp);
       },
-      convertToEntity: function(obj){
+      convertToEntity: function(obj) {
         var temp = this.createEntity("model-user");
         var credentialService = document.createElement("service-credential");
-        if(obj && obj.Type == "User"){          
+        if (obj && obj.Type == "User") {
           temp.Type = obj.Type;
           temp.Uid = obj.Uid;
           temp.Pseudo = obj.Pseudo;

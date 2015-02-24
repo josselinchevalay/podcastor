@@ -3,68 +3,74 @@ Service OAuth
 @Author Josselin CHEVALAY <josselin54.chevalay@gmail.com
 @package js/Podcastor/Service/
 -->
-
-
-
-
 <link rel="import" href="../../../libs/polymer/polymer.html">
 <link rel="import" href="../../../libs/core-ajax/core-ajax.html">
 <polymer-element name="service-oauth" attribute="">
   <template>
     <style>
-      :host{
+      :host {
         display: none
       }
     </style>
   </template>
   <script>
     Polymer("service-oauth", {
-      ready: function(){
+      ready: function() {
 
       },
-      getUserConnect: function(){
+      getUserConnect: function() {
         var self = this;
         var app = document.getElementById('app');
         self.session = app.Storage;
         var ajax = document.createElement('core-ajax');
         ajax.method = 'GET';
         ajax.url = 'api/user';
-        ajax.handleAs ='json';
+        ajax.handleAs = 'json';
         ajax.go();
-        ajax.addEventListener('core-response',function(e){
+        ajax.addEventListener('core-response', function(e) {
           self.session.User = ajax.response;
-          self.fire("oauth-correct-credentials", {msg: "correct credentials !"});
+          self.fire("oauth-correct-credentials", {
+            msg: "correct credentials !"
+          });
         });
       },
-      connect: function(obj){
+      connect: function(obj) {
         self = this;
         var app = document.getElementById('app');
         self.session = app.Storage;
-        var ajax  = document.createElement('core-ajax');
+        var ajax = document.createElement('core-ajax');
         ajax.method = "POST";
         ajax.url = '/api/oauth/connect';
         ajax.handleAs = "json";
-        ajax.headers = {"Authorize":""};
+        ajax.headers = {
+          "Authorize": ""
+        };
         ajax.params = obj;
         ajax.go();
         ajax.addEventListener('core-response', function(e) {
           self.session.User = ajax.response;
-          self.fire("oauth-correct-credentials", {msg: "correct credentials !"});
+          self.fire("oauth-correct-credentials", {
+            msg: "correct credentials !"
+          });
           //setTimeOut('revive', ); //activate timeout
         });
-        ajax.addEventListener('core-error', function(e){
-            self.fire("oauth-bad-credentials", {msg: "bad credentials !"});
+        ajax.addEventListener('core-error', function(e) {
+          self.fire("oauth-bad-credentials", {
+            msg: "bad credentials !"
+          });
         });
       },
-      signin: function(obj){
+      signin: function(obj) {
         self = this;
         var app = document.getElementById('app');
         self.session = app.Storage;
-        var ajax  = document.createElement('core-ajax');
+        var ajax = document.createElement('core-ajax');
         ajax.method = "POST";
         ajax.url = '/api/oauth/signin';
         ajax.handleAs = "json";
-        ajax.headers = {"Authorize":""};
+        ajax.headers = {
+          "Authorize": ""
+        };
         ajax.params = obj;
         ajax.go();
         ajax.addEventListener('core-response', function(e) {
@@ -72,32 +78,32 @@ Service OAuth
           console.log(self.session.User.Credentials.TTL);
           app.alert('welcome to Podcastor !');
         });
-        ajax.addEventListener('core-error', function(e){
-           console.log(e);
+        ajax.addEventListener('core-error', function(e) {
+          console.log(e);
         });
       },
       /**
-      * revive
-      * can use for refresh token for auth
-      *
-      */
-     /* revive: function(){
-        var self = this;
-        var app = document.getElementById('app');
-        var ajax = document.createElement('core-ajax');
-        ajax.method = 'POST';
-        ajax.url = '/api/oauth/revive';
-        ajax.handleAs = 'json';
-        ajax.headers = {"Authorize":app.Storage.User.Credentials.AuthorizeKey};
-        ajax.go();
-        ajax.addEventListener('core-response', function(e) {
-          self.session.User = ajax.response;
-          self.fire("oauth-user-added", {msg: "you added ! welcome !"});
-        });
-        ajax.addEventListener('core-error', function(e){
-           console.log(e);
-        });
-      }*/
+       * revive
+       * can use for refresh token for auth
+       *
+       */
+      /* revive: function(){
+         var self = this;
+         var app = document.getElementById('app');
+         var ajax = document.createElement('core-ajax');
+         ajax.method = 'POST';
+         ajax.url = '/api/oauth/revive';
+         ajax.handleAs = 'json';
+         ajax.headers = {"Authorize":app.Storage.User.Credentials.AuthorizeKey};
+         ajax.go();
+         ajax.addEventListener('core-response', function(e) {
+           self.session.User = ajax.response;
+           self.fire("oauth-user-added", {msg: "you added ! welcome !"});
+         });
+         ajax.addEventListener('core-error', function(e){
+            console.log(e);
+         });
+       }*/
     });
   </script>
 </polymer-element>
