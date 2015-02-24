@@ -15,70 +15,64 @@ View login
 <link rel="import" href="../Service/User.html">
 <polymer-element name="view-login" attribute="">
   <template>
-   <style>
+    <style>
       :host {
-    display: block;
-    position: relative;
-    background-color: white;
-    padding: 20px;
-    width: 85%;
-    font-size: 1.2rem;
-    font-weight: 300;
-  }
-  .card-header {
-    margin-bottom: 10px;
-  }
-  polyfill-next-selector { content: '.card-header h2'; }
-    .card-header ::content h2 {
-    margin: 0;
-    font-size: 1.8rem;
-    font-weight: 300;
-  }
-  polyfill-next-selector { content: '.card-header img'; }
-    .card-header ::content img {
-    width: 70px;
-    border-radius: 50%;
-    margin: 10px;
-  }
-
- .colored {
-  margin-left: 15px;
- }
-
- #button-login {
-      background: #4285f4;
-      color: #fff;
-
-  }
-
-  #button-login:hover {
-      background: #2a56c6;
-  }
-
-  #button-login::shadow #ripple {
-      color: #2a56c6;
-  }
-
-  #button-sigin {
-    background: #00EE0C;
-    color: #fff;
-  }
-
-  #button-sigin:hover {
-    background: #00D90B;
-  }
-
-  .groups-btn {
-    margin-top: 15px;
-  }
-
-
+        display: block;
+        position: relative;
+        background-color: white;
+        padding: 20px;
+        width: 85%;
+        font-size: 1.2rem;
+        font-weight: 300;
+      }
+      .card-header {
+        margin-bottom: 10px;
+      }
+      polyfill-next-selector {
+        content: '.card-header h2';
+      }
+      .card-header::content h2 {
+        margin: 0;
+        font-size: 1.8rem;
+        font-weight: 300;
+      }
+      polyfill-next-selector {
+        content: '.card-header img';
+      }
+      .card-header::content img {
+        width: 70px;
+        border-radius: 50%;
+        margin: 10px;
+      }
+      .colored {
+        margin-left: 15px;
+      }
+      #button-login {
+        background: #4285f4;
+        color: #fff;
+      }
+      #button-login:hover {
+        background: #2a56c6;
+      }
+      #button-login::shadow #ripple {
+        color: #2a56c6;
+      }
+      #button-sigin {
+        background: #00EE0C;
+        color: #fff;
+      }
+      #button-sigin:hover {
+        background: #00D90B;
+      }
+      .groups-btn {
+        margin-top: 15px;
+      }
     </style>
     <div>
       <p>Connexion ! </p>
       <div id="Provider">
         <paper-icon-button icon="social:post-twitter" id="twitter" data-provider="twitter" on-click="{{changeProvider}}"></paper-icon-button>
-        <paper-icon-button icon="social:post-facebook" id="facebook"  data-provider="facebook" on-click="{{changeProvider}}"></paper-icon-button>
+        <paper-icon-button icon="social:post-facebook" id="facebook" data-provider="facebook" on-click="{{changeProvider}}"></paper-icon-button>
         <paper-icon-button icon="social:post-gplus" id="gplus" data-provider="gplus" on-click="{{changeProvider}}"></paper-icon-button>
       </div>
       <core-field class="groups-btn">
@@ -86,97 +80,97 @@ View login
         &nbsp;
         <paper-button raisedButton class="colored" label="sigin" id="button-sigin" on-click="{{signin}}"></paper-button>
       </core-field>
-    <div>
+      <div>
   </template>
   <script>
     Polymer("view-login", {
-        /**
-        * ready
-        * {inheritdoc}
-        */
-        ready: function(){
-          this.provider = '';
-          this.app = document.getElementById('app');
-          this.OAutService = document.createElement('service-oauth'); // use for auth with server
-          this.providers = ['twitter', 'facebook', 'gplus']; // define providers for auth
-          for(var key in this.providers){
+      /**
+       * ready
+       * {inheritdoc}
+       */
+      ready: function() {
+        this.provider = '';
+        this.app = document.getElementById('app');
+        this.OAutService = document.createElement('service-oauth'); // use for auth with server
+        this.providers = ['twitter', 'facebook', 'gplus']; // define providers for auth
+        for (var key in this.providers) {
+          this.changeOpacityLogo(this.providers[key], 0.5);
+        }
+        return;
+      },
+      /**
+       * login
+       * can use for login user
+       */
+      login: function() {
+        if (!this.checkIntegrity()) { // check integrity of data over all action
+          return;
+        }
+        var self = this;
+        if (!this.provider) {
+          return;
+        }
+        window.location.href = '/auth/' + this.provider;
+        return;
+      },
+      /**
+       * sigin
+       */
+      signin: function() {
+        if (!this.checkIntegrity()) { // check integrity of data over all action
+          return;
+        }
+        if (!this.provider) {
+          return;
+        }
+        window.location.href = '/auth/' + this.provider;
+        return;
+      },
+      /**
+       * changeProvider
+       * can use for change provider auth
+       *
+       * @params e eventObject
+       */
+      changeProvider: function(e) {
+        var currentElement = e.toElement || e.target;
+        var providerName = currentElement.getAttribute('data-provider');
+        this.provider = providerName;
+        for (var key in this.providers) {
+          if (providerName != this.providers[key]) {
+            // TODO alpha 0.5 is disable
             this.changeOpacityLogo(this.providers[key], 0.5);
           }
-          return;
-        },
-        /**
-        * login
-        * can use for login user
-        */
-        login: function(){
-          if(!this.checkIntegrity()){ // check integrity of data over all action
-            return;
-          }
-          var self = this;
-          if(!this.provider){
-            return;
-          }
-          window.location.href = '/auth/'+this.provider;
-          return;
-        },
-        /**
-        * sigin
-        */
-        signin: function(){
-          if(!this.checkIntegrity()){ // check integrity of data over all action
-            return;
-          }
-          if(!this.provider){
-            return;
-          }
-          window.location.href = '/auth/'+this.provider;
-          return;
-        },
-        /**
-        * changeProvider
-        * can use for change provider auth
-        *
-        * @params e eventObject
-        */
-        changeProvider: function(e){
-          var currentElement = e.toElement || e.target;
-          var providerName = currentElement.getAttribute('data-provider');
-          this.provider = providerName;
-          for(var key in this.providers){
-            if(providerName != this.providers[key]){
-              // TODO alpha 0.5 is disable
-              this.changeOpacityLogo(this.providers[key], 0.5);
-            }
-          }
-          // current element alpha 1 is selected
-          this.changeOpacityLogo(currentElement.id, 1);
-          return;
-        },
-        /**
-        * ChangeOpacityLogo
-        * can you use for change opacity of Providers auth logo
-        *
-        * @params elementName string name of element to change opacity
-        * @params opacityValue double opacity 0 <= 1
-        *
-        */
-        changeOpacityLogo: function(elementName, opacityValue){
-           this.$[elementName].style.opacity = opacityValue;
-           return;
-        },
-        /**
-        * checkIntegrity
-        * can use check user is good auth
-        *
-        * @return boolean
-        */
-        checkIntegrity: function(){
-          if(!this.provider){
-            this.app.alert('check Provider for auth !');
-            return false;
-          }
-          return true;
         }
+        // current element alpha 1 is selected
+        this.changeOpacityLogo(currentElement.id, 1);
+        return;
+      },
+      /**
+       * ChangeOpacityLogo
+       * can you use for change opacity of Providers auth logo
+       *
+       * @params elementName string name of element to change opacity
+       * @params opacityValue double opacity 0 <= 1
+       *
+       */
+      changeOpacityLogo: function(elementName, opacityValue) {
+        this.$[elementName].style.opacity = opacityValue;
+        return;
+      },
+      /**
+       * checkIntegrity
+       * can use check user is good auth
+       *
+       * @return boolean
+       */
+      checkIntegrity: function() {
+        if (!this.provider) {
+          this.app.alert('check Provider for auth !');
+          return false;
+        }
+        return true;
+      }
     });
   </script>
 </polymer-element>
