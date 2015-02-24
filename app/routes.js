@@ -2,6 +2,16 @@
 
 // grab the nerd model
 var Oauth = require('./Oauth/Oauth.js');
+var userModel = require('./model/user');
+
+// ensure auth
+function ensureAuthenticated(req, res, next) {
+	if (req.isAuthenticated()) { return next(); }
+	res.status(403);
+	res.send();
+}
+
+
 module.exports = function(app, passport) {
 
 	// Oauth
@@ -10,8 +20,10 @@ module.exports = function(app, passport) {
 	// handle things like api calls
 	// authentication routes
   // User
-	app.get('/api/user', function(req, resp){
-
+	app.get('/api/user', ensureAuthenticated, function(req, resp){
+		  var currentAuthId = req.session.passport.user.id;
+			var currentUser 	= userModel.findByAuth(currentAuthId);
+			resp.json(currentUser);
 	});
 
 	app.post('/api/user', function(req, resp){

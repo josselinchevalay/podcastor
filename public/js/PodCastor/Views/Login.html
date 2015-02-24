@@ -81,14 +81,6 @@ View login
         <paper-icon-button icon="social:post-facebook" id="facebook"  data-provider="facebook" on-click="{{changeProvider}}"></paper-icon-button>
         <paper-icon-button icon="social:post-gplus" id="gplus" data-provider="gplus" on-click="{{changeProvider}}"></paper-icon-button>
       </div>
-      <core-filed>
-        <label>Login : </label>
-        <core-input id="login" placeholder="Login ...." value="{{user.Credentials.Login}}"></core-input>
-      </core-filed>
-      <core-filed>
-        <label>Password : </label>
-        <core-input id="pass" placeholder="pass ..." type="password" value="{{user.Credentials.Password}}"></core-input>
-      </core-filed>
       <core-field class="groups-btn">
         <paper-button raisedButton class="colored" label="login" id="button-login" on-click="{{login}}"></paper-button>
         &nbsp;
@@ -103,9 +95,8 @@ View login
         * {inheritdoc}
         */
         ready: function(){
+          this.provider = '';
           this.app = document.getElementById('app');
-          this.userService = document.createElement('service-user'); // use for bind a empty user
-          this.user = this.userService.createEntity();
           this.OAutService = document.createElement('service-oauth'); // use for auth with server
           this.providers = ['twitter', 'facebook', 'gplus']; // define providers for auth
           for(var key in this.providers){
@@ -122,14 +113,10 @@ View login
             return;
           }
           var self = this;
-          this.OAutService.connect(this.userService.convertToJson(this.user)); // srv -> client = JSON
-          this.OAutService.addEventListener('oauth-bad-credentials', function(e){ // if bad credentials
-            self.app.alert(e.detail.msg);
-          });
-
-          this.OAutService.addEventListener('oauth-correct-credentials', function(e){ // if bad credentials
-            self.app.navigateTo('accueil');
-          });
+          if(!this.provider){
+            return;
+          }
+          window.location.href = '/auth/'+this.provider;
           return;
         },
         /**
@@ -139,12 +126,10 @@ View login
           if(!this.checkIntegrity()){ // check integrity of data over all action
             return;
           }
-          this.OAutService.signin(this.userService.convertToJson(this.user)); // srv -> client = JSON
-          this.OAutService.addEventListener('oauth-user-added', function(e){ // if bad credentials
-            var notification = document.getElementById('notification'); // use notif for display error / succes
-            notification.text = e.detail.msg;
-            notification.show();
-          });
+          if(!this.provider){
+            return;
+          }
+          window.location.href = '/auth/'+this.provider;
           return;
         },
         /**
@@ -155,9 +140,8 @@ View login
         */
         changeProvider: function(e){
           var currentElement = e.toElement || e.target;
-          console.log(e);
           var providerName = currentElement.getAttribute('data-provider');
-          this.user.Credentials.Provider = providerName;
+          this.provider = providerName;
           for(var key in this.providers){
             if(providerName != this.providers[key]){
               // TODO alpha 0.5 is disable
@@ -187,12 +171,8 @@ View login
         * @return boolean
         */
         checkIntegrity: function(){
-          if(!this.user.Credentials.Provider){
+          if(!this.provider){
             this.app.alert('check Provider for auth !');
-            return false;
-          }
-          if(!this.user.Credentials.Login || !this.user.Credentials.Password){
-            this.app.alert('check Login and / or Password ! ');
             return false;
           }
           return true;

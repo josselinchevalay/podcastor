@@ -8,68 +8,76 @@ Service OAuth
 <link rel="import" href="../../../libs/core-ajax/core-ajax.html">
 
 <link rel="import" href="../Service/Router.html">
+<link rel="import" href="../Service/OAuth.html">
 
 
 <!-- Views !-->
-<link rel="import" href="../Views/login.html"/>
-<link rel="import" href="../Views/User.html"/>
-<link rel="import" href="../Views/AppMenu.html"/>
+<link rel="import" href="../Views/login.html" />
+<link rel="import" href="../Views/User.html" />
+<link rel="import" href="../Views/AppMenu.html" />
 
 <polymer-element name="service-app" attribute="">
   <template>
     <style>
-      :host{
+      :host {
         display: none
       }
     </style>
   </template>
   <script>
     Polymer("service-app", {
-      ready: function(){
-       this.Router = document.createElement('service-router');
-       this._localStorage = {};
-       Object.defineProperty(this, 'Storage', {
-        get: function(){
-          return this._localStorage;
-        },
-        set: function(obj){
-          this._localStorage = obj;
-          return;
-        }
-      });
-      this.navigateTo('accueil');
+      ready: function() {
+        var self = this;
+        var oauthService = document.createElement('service-oauth');
+        this.Router = document.createElement('service-router');
+        this._localStorage = {};
+        Object.defineProperty(this, 'Storage', {
+          get: function() {
+            return this._localStorage;
+          },
+          set: function(obj) {
+            this._localStorage = obj;
+            return;
+          }
+        });
+        oauthService.getUserConnect();
+        oauthService.addEventListener('oauth-correct-credentials', function(e) {
+          self.navigateTo('accueil');
+        });
+        this.navigateTo('accueil');
+        return;
       },
       /**
-      * alert
-      * can use all for show notification to user
-      * @param text string text in notification
-      */
-      alert: function(text){
+       * alert
+       * can use all for show notification to user
+       * @param text string text in notification
+       */
+      alert: function(text) {
         var notification = document.getElementById('notification'); // use notif for display error / succes
         notification.text = text;
         notification.show();
         return;
       },
       /**
-      * navigateTo
-      * can use for navigate on app
-      * @param  id string
-      */
-      navigateTo: function(id){
-        if(!id) {
+       * navigateTo
+       * can use for navigate on app
+       * @param  id string
+       */
+      navigateTo: function(id) {
+        if (!id) {
           return;
         }
 
-        if(!this.Router.Routes[id]) {
+        if (!this.Router.Routes[id]) {
           return;
         }
         var element = this.Router.Routes[id];
 
-        if(element.authorized) {
-          if(!this._localStorage.User) {
+        if (element.authorized) {
+          if (!this._localStorage.User) {
             this.render(document.createElement(this.Router.Routes.login.elementName));
             return;
-          }else{
+          } else {
             this.render(document.createElement(element.elementName));
             return;
           }
@@ -79,23 +87,23 @@ Service OAuth
         return;
       },
       /**
-      * render
-      * can use for display element in section3
-      * @params element Element
-      */
-      render: function(element){
+       * render
+       * can use for display element in section3
+       * @params element Element
+       */
+      render: function(element) {
         var container = document.getElementById('section3');
         container = this.cleanChildren(container);
         container.appendChild(element);
         return;
       },
       /**
-      * cleanChildren
-      * can use for clean HTLMELEMENT
-      * @params container HTMLELEMENT
-      */
-      cleanChildren : function(container){
-        for(var i =0; i < container.children.length; i++){ // clear container
+       * cleanChildren
+       * can use for clean HTLMELEMENT
+       * @params container HTMLELEMENT
+       */
+      cleanChildren: function(container) {
+        for (var i = 0; i < container.children.length; i++) { // clear container
           container.removeChild(container.children[i]);
         }
         return container;

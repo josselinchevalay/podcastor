@@ -11,7 +11,14 @@ View login
     </style>
     <div>
       <template bind if="{{app.Storage.User}}">
-        <h1>Hi {{app.Storage.User.Pseudo}} </h1>
+        <h1>
+          <template if="{{app.Storage.User.pseudo.givenName}}">
+            {{app.Storage.User.pseudo.givenName}}
+          </template>
+          <template if="{{app.Storage.User.pseudo.familyName}}">
+            {{app.Storage.User.pseudo.familyName}}
+          </template>
+        </h1>
       </template>
       <template bind if="{{!app.Storage.User}}">
         <h3>connect you ! </h3>

@@ -22,6 +22,20 @@ Service OAuth
       ready: function(){
 
       },
+      getUserConnect: function(){
+        var self = this;
+        var app = document.getElementById('app');
+        self.session = app.Storage;
+        var ajax = document.createElement('core-ajax');
+        ajax.method = 'GET';
+        ajax.url = 'api/user';
+        ajax.handleAs ='json';
+        ajax.go();
+        ajax.addEventListener('core-response',function(e){
+          self.session.User = ajax.response;
+          self.fire("oauth-correct-credentials", {msg: "correct credentials !"});
+        });
+      },
       connect: function(obj){
         self = this;
         var app = document.getElementById('app');
