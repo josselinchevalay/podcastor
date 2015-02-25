@@ -29,7 +29,7 @@ Service OAuth
         ajax.go();
         ajax.addEventListener('core-response', function(e) {
           var isObject = typeof ajax.response === 'object';
-          if(!isObject) {
+          if (!isObject) {
             // TODO ADD MSG ERREUR
             return;
           }
@@ -40,65 +40,19 @@ Service OAuth
         });
         return;
       },
-      connect: function(obj) {
-        self = this;
-        var app = document.getElementById('app');
-        self.session = app.Storage;
-        var ajax = document.createElement('core-ajax');
-        ajax.method = "POST";
-        ajax.url = '/api/oauth/connect';
-        ajax.handleAs = "json";
-        ajax.headers = {
-          "Authorize": ""
-        };
-        ajax.params = obj;
-        ajax.go();
-        ajax.addEventListener('core-response', function(e) {
-          self.session.User = ajax.response;
-          self.fire("oauth-correct-credentials", {
-            msg: "correct credentials !"
-          });
-          //setTimeOut('revive', ); //activate timeout
-        });
-        ajax.addEventListener('core-error', function(e) {
-          self.fire("oauth-bad-credentials", {
-            msg: "bad credentials !"
-          });
-        });
-      },
-      signin: function(obj) {
-        self = this;
-        var app = document.getElementById('app');
-        self.session = app.Storage;
-        var ajax = document.createElement('core-ajax');
-        ajax.method = "POST";
-        ajax.url = '/api/oauth/signin';
-        ajax.handleAs = "json";
-        ajax.headers = {
-          "Authorize": ""
-        };
-        ajax.params = obj;
-        ajax.go();
-        ajax.addEventListener('core-response', function(e) {
-          self.session.User = ajax.response;
-          app.alert('welcome to Podcastor !');
-        });
-        ajax.addEventListener('core-error', function(e) {
-          console.log(e);
-        });
-      },
-      logout: function(){
+      logout: function() {
         self = this;
         var app = document.getElementById('app');
         app.Storage.User = null;
         var ajax = document.createElement('core-ajax');
         ajax.method = 'GET';
-        ajax.url ='/api/oauth/logout';
+        ajax.url = '/auth/logout';
         ajax.handleAs = 'json';
         ajax.go();
         ajax.addEventListener('core-response', function(e) {
-          console.log('here')
+          self.fire('oauth-logout-correct', {});
         });
+        return;
       }
     });
   </script>

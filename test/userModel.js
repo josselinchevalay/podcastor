@@ -32,5 +32,5 @@ exports.testFindByAuth = function(test) {
 
 exports.testAllUser = function(test) {
   var length = UserModel.all().length;
-  test.done(test.equal(length, 1));
+  test.done(test.equal(length, 2));
 };
