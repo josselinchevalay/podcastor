@@ -7,10 +7,11 @@ Components FM
 <polymer-element name="components-fm" attributes="visualisation object">
   <template>
     <template if="{{visualisation == 'maxi'}}">
-      {{object['last']}}
+      {{object.name}}
     </template>
     <template if="{{visualisation == 'mini'}}">
       <!-- TODO display element -->
+      {{object.name}}
     </template>
   </template>
   <script>

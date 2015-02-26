@@ -8,7 +8,8 @@ View login
 <link rel="import" href="../../../libs/paper-elements/paper-elements.html" />
 <link rel="import" href="../../../libs/core-elements/core-elements.html" />
 
-<link rel="import" href="../Service/OAuth.html"/>
+<link rel="import" href="../Service/Fm.html"/>
+<link rel="import" href="../Components/Fm.html"/>
 
 <polymer-element name="view-fm" attribute="">
   <template>
@@ -45,11 +46,19 @@ View login
     <div>
       <h1> FM </h1>
     <div>
+      <template repeat="{{fm in fms}}">
+          <components-fm object='{{fm}}' visualisation='mini'></components-fm>
+      </template>
   </template>
   <script>
     Polymer("view-fm", {
       ready: function() {
+        var self = this;
+        var service = document.createElement('service-fm');
         this.app = document.getElementById('app');
+        service.addEventListener('service-fm-get', function(event){
+          self.fms = service.fm;
+        });
       }
     });
   </script>
