@@ -24,7 +24,7 @@ Service OAuth
         self.session = app.Storage;
         var ajax = document.createElement('core-ajax');
         ajax.method = 'GET';
-        ajax.url = 'api/user';
+        ajax.url = '/api/connect';
         ajax.handleAs = 'json';
         ajax.go();
         ajax.addEventListener('core-response', function(e) {

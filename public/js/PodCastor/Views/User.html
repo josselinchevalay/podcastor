@@ -5,23 +5,23 @@ View login
 -->
 <link rel="import" href="../../../libs/polymer/polymer.html">
 
+<link rel="import" href="../../../libs/paper-elements/paper-elements.html" />
+<link rel="import" href="../../../libs/core-elements/core-elements.html" />
+
+<link rel="import" href="../Service/OAuth.html"/>
+
 <polymer-element name="view-user" attribute="">
   <template>
     <style>
     </style>
-    <div>
-      <template bind if="{{app.Storage.User}}">
-        <h1>
+    <div>      <template bind if="{{app.Storage.User}}">
           <template if="{{app.Storage.User.pseudo.givenName}}">
             {{app.Storage.User.pseudo.givenName}}
           </template>
           <template if="{{app.Storage.User.pseudo.familyName}}">
             {{app.Storage.User.pseudo.familyName}}
           </template>
-        </h1>
-      </template>
-      <template bind if="{{!app.Storage.User}}">
-        <h3>connect you ! </h3>
+          <paper-button raisedButton class="colored" label="login" id="button-login" on-click="{{logout}}"></paper-button>
       </template>
       <div>
   </template>
@@ -30,6 +30,13 @@ View login
       ready: function() {
         this.app = document.getElementById('app');
       },
+      logout: function(){
+        var oauth = document.createElement('service-oauth');
+        oauth.logout();
+        oauth.addEventListener('oauth-logout-correct', function(e) {
+          window.location.href='/';
+        });
+      }
     });
   </script>
 </polymer-element>

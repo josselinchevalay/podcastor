@@ -11,25 +11,26 @@ View AppMenu
 <link rel="import" href="../../../libs/paper-elements/paper-elements.html" />
 <link rel="import" href="../../../libs/core-elements/core-elements.html" />
 
-<link rel="import" href="../Service/OAuth.html"/>
-
 <polymer-element name="view-appmenu" attribute="">
   <template>
     <style>
     </style>
     <div>
       <core-menu selected="0">
-        <template bind if="{{app.Storage.User}}">
-          <paper-button raisedButton class="colored" label="login" id="button-login" on-click="{{logout}}"></paper-button>
+      <!--  <template bind if="{{app.Storage.User}}">
           <core-submenu id="core_submenu" label="Account">
             <core-item id="core_item" label="Podcast"></core-item>
             <core-item id="core_item1" label="FM"></core-item>
           </core-submenu>
-        </template>
-        <core-submenu id="core_submenu1" label="App">
-          <core-item id="core_item2" label="Favorite 1"></core-item>
-          <core-item id="core_item3" label="Favorite 2"></core-item>
-          <core-item id="core_item4" label="Favorite 3"></core-item>
+        </template>-->
+        <core-submenu id="core_submenu1" label="App" on-core-select="{{selectAction}}">
+          <template bind if="{{app.Storage.User}}">
+            <core-item id="core_item2" label="Fm"></core-item>
+            <core-item id="core_item4" label="accueil"></core-item>
+          </template>
+          <template bind if="{{!app.Storage.User}}">
+            <core-item id="core_item3" label="login"></core-item>
+          </template>
         </core-submenu>
       </core-menu>
   </template>
@@ -38,12 +39,9 @@ View AppMenu
       ready: function() {
         this.app = document.getElementById('app');
       },
-      logout: function(){
-        var oauth = document.createElement('service-oauth');
-        oauth.logout();
-        oauth.addEventListener('oauth-logout-correct', function(e) {
-          window.location.href='/';
-        });
+      selectAction: function(event){
+        var item = event.detail.item;
+        this.app.navigateTo(item.label);
       }
     });
   </script>
