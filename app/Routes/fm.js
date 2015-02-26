@@ -1,5 +1,5 @@
 // ensure auth
-var path  = '/api/fm'
+var path = '/api/fm'
 var model = require('../model/fm');
 
 function ensureAuthenticated(req, res, next) {
@@ -12,7 +12,11 @@ function ensureAuthenticated(req, res, next) {
 
 
 module.exports = function(app, passport) {
-  app.get(path, ensureAuthenticated, function(req, resp){
-
+  app.get(path, ensureAuthenticated, function(req, resp) {
+    if (req.body.id) {
+      var id = req.body.id;
+      resp.json(model.findById(id));
+    }
+    resp.json(model.all());
   });
 };
