@@ -5,18 +5,42 @@ Components FM
 -->
 <link rel="import" href="../../../libs/polymer/polymer.html">
 <polymer-element name="components-fm" attributes="visualisation object">
+  <style>
+  :host {
+    display: block;
+    position: relative;
+    background-color: red;
+    padding: 20px;
+    width: 100%;
+    font-size: 1.2rem;
+    font-weight: 300;
+    }
+    .element {
+    margin-bottom: 10px;
+  }
+  polyfill-next-selector { content: '.element h2'; }
+  .element ::content h2 {
+    margin: 0;
+    font-size: 1.8rem;
+    font-weight: 300;
+  }
+  polyfill-next-selector { content: '.element img'; }
+  .element ::content img {
+    width: 70px;
+    border-radius: 50%;
+    margin: 10px;
+  }
+  </style>
   <template>
-    <template if="{{visualisation == 'maxi'}}">
-      <div class="row cell">
-        {{object.name}}
-      </div>
-    </template>
-    <template if="{{visualisation == 'mini'}}">
-      <!-- TODO display element -->
-      <div class="row cell">
-        {{object.name}}
-      </div>
-    </template>
+    <div class="element">
+      <template if="{{visualisation == 'maxi'}}">
+        <h2>  {{object.name}}<h2>
+      </template>
+      <template if="{{visualisation == 'mini'}}">
+        <!-- TODO display element -->
+          <h2>{{object.name}}<h2>
+      </template>
+    </div>
   </template>
   <script>
     Polymer('components-fm', {

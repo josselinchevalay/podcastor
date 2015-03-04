@@ -11,36 +11,26 @@ View login
 <link rel="import" href="../Service/Fm.html"/>
 <link rel="import" href="../Components/Fm.html"/>
 
-<polymer-element name="view-fm" attribute="">
+<polymer-element name="view-fm" attribute="fms">
   <template>
     <style>
     :host {
       display: block;
       position: relative;
-      background-color: white;
       padding: 20px;
-      width: 85%;
       font-size: 1.2rem;
       font-weight: 300;
     }
-    .table{
-      border:2px;
-    }
-    .table.row{
-      background:white;
-    }
-    .table.row:nth-child(2n+2){
-      background: #f5f5f5;
-    }
+    .fm {
+     margin-bottom: 30px;
+   }
     </style>
     <div>
       <h1> FM </h1>
     <div>
     <div class="table">
       <template repeat="{{fm in fms}}">
-          <div class="table row">
-              <components-fm object='{{fm}}' visualisation='mini'></components-fm>
-          </div>
+          <components-fm object='{{fm}}' visualisation='mini' class="fm"></components-fm>
       </template>
     </div>
   </template>
