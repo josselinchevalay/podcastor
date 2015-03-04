@@ -51,6 +51,7 @@ Service OAuth
         ajax.go();
         ajax.addEventListener('core-response', function(e) {
           self.fire('oauth-logout-correct', {});
+          app.navigateTo('login');
         });
         return;
       }
