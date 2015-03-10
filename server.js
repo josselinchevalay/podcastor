@@ -16,7 +16,7 @@ var uuid = require('node-uuid');
 // config files
 var Db = require('./config/config');
 
-var port = process.env.PORT || 8080; // set our port
+var port = process.env.PORT || 8082; // set our port
 // mongoose.connect(db.url); // connect to our mongoDB database (uncomment after you enter in your own credentials in config/db.js)
 
 // Passport ================================================

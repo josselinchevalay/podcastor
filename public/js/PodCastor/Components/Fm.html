@@ -4,47 +4,50 @@ Components FM
 @package js/Podcastor/Components/
 -->
 <link rel="import" href="../../../libs/polymer/polymer.html">
+<link rel="import" href="../../../libs/core-icons/core-icons.html">
+<link rel="import" href="../../../libs/core-input/core-input.html">
+<link rel="import" href="../../../libs/core-icons/social-icons.html">
+<link rel="import" href="../../../libs/core-field/core-field.html">
+<link rel="import" href="../../../libs/paper-button/paper-button.html">
+<link rel="import" href="../../../libs/paper-icon-button/paper-icon-button.html">
 <polymer-element name="components-fm" attributes="visualisation object">
   <style>
-  :host {
-    display: block;
-    position: relative;
-    background-color: red;
-    padding: 20px;
-    width: 100%;
-    font-size: 1.2rem;
-    font-weight: 300;
-    }
-    .element {
-    margin-bottom: 10px;
-  }
-  polyfill-next-selector { content: '.element h2'; }
-  .element ::content h2 {
-    margin: 0;
-    font-size: 1.8rem;
-    font-weight: 300;
-  }
-  polyfill-next-selector { content: '.element img'; }
-  .element ::content img {
-    width: 70px;
-    border-radius: 50%;
-    margin: 10px;
-  }
+
   </style>
   <template>
     <div class="element">
-      <template if="{{visualisation == 'maxi'}}">
-        <h2>  {{object.name}}<h2>
+      <h2>
+         {{object.name}}
+         <paper-icon-button icon="arrow-drop-down" data-visualisation="{{visualisation}}" on-click="{{changeVisualisation}}"></paper-icon-button>
+      </h2>
+      <template bind if="{{visualisation == 'maxi'}}">
+        <p><label>Description : </label>{{object.description}}</p>
+        <p><label>PodCast : </label>{{object.podcast.length}}</p>
+        <p><label>Author : </label> {{object.author.pseudo.givenName}} {{object.author.pseudo.familyName}}</p>
       </template>
-      <template if="{{visualisation == 'mini'}}">
-        <!-- TODO display element -->
-          <h2>{{object.name}}<h2>
+      <template bind if="{{visualisation == 'mini'}}">
       </template>
+      <div class="stats">
+        <paper-icon-button icon="social:plus-one" label="{{object.like.length}}"></paper-icon-button>
+        <paper-icon-button icon="social:plus-one" label="{{object.dislike.length}}"></paper-icon-button>
+        <paper-icon-button icon="social:people" label="{{object.followers.length}}"></paper-icon-button>
+      </div>
     </div>
   </template>
   <script>
     Polymer('components-fm', {
-
+      changeVisualisation: function(event){
+         var elmt = event.target;
+         var visu = elmt.getAttribute('data-visualisation');
+         if (visu == 'mini') {
+           this.visualisation = 'maxi'
+           elmt.icon = 'arrow-drop-up';
+         }else{
+           this.visualisation = 'mini'
+           elmt.icon = 'arrow-drop-down';
+         }
+         return;
+      }
     });
   </script>
 </polymer-element>
