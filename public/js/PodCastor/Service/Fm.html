@@ -41,14 +41,32 @@ Service Fm
           self.fire("service-fm-get");
         });
       },
-      put: function() {
-
+      put: function(entity) {
+        var self = this;
+        var ajax = document.createElement("core-ajax");
+        ajax.method = "PUT";
+        ajax.handleAs = 'json';
+        ajax.url = this.URL;
+        ajax.params = this.toJson(entity);
+        ajax.go();
+        ajax.addEventListener('core-response', function(data){
+          this.get({});
+        });
+        return;
       },
       remove: function() {
 
       },
       createEntity: function() {
         return document.createElement("model-fm");
+      },
+      toJson : function(obj){
+        toString = obj;
+        toString.like = JSON.stringify(toString.like);
+        toString.dislike = JSON.stringify(toString.dislike);
+        toString.followers = JSON.stringify(toString.followers);
+        toString.author = JSON.stringify(toString.author);
+        return JSON.stringify(toString);
       }
     });
   </script>

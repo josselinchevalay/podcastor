@@ -10,6 +10,10 @@ Components FM
 <link rel="import" href="../../../libs/core-field/core-field.html">
 <link rel="import" href="../../../libs/paper-button/paper-button.html">
 <link rel="import" href="../../../libs/paper-icon-button/paper-icon-button.html">
+
+<link rel="import" href="../Service/Fm.html">
+
+
 <polymer-element name="components-fm" attributes="visualisation object">
   <style>
 
@@ -28,14 +32,18 @@ Components FM
       <template bind if="{{visualisation == 'mini'}}">
       </template>
       <div class="stats">
-        <paper-icon-button icon="social:plus-one" label="{{object.like.length}}"></paper-icon-button>
-        <paper-icon-button icon="social:plus-one" label="{{object.dislike.length}}"></paper-icon-button>
+        <paper-icon-button icon="social:plus-one" label="{{object.like.length}}" data-action="like" on-click="{{judgement}}"></paper-icon-button>
+        <paper-icon-button icon="social:plus-one" label="{{object.dislike.length}}" data-action="dislike" on-click="{{judgement}}"></paper-icon-button>
         <paper-icon-button icon="social:people" label="{{object.followers.length}}"></paper-icon-button>
       </div>
     </div>
   </template>
   <script>
     Polymer('components-fm', {
+      ready:function(){
+        this.app = document.getElementById('app');
+        return;
+      },
       changeVisualisation: function(event){
          var elmt = event.target;
          var visu = elmt.getAttribute('data-visualisation');
@@ -47,6 +55,26 @@ Components FM
            elmt.icon = 'arrow-drop-down';
          }
          return;
+      },
+      judgement: function(event){
+        var action = event.target.getAttribute('data-action');
+        if(currentUser = this.app.Storage.User) {
+          var isLike = _.find(this.object.like, currentUser); // check if already like
+          var isDisLike = _.find(this.object.dislike, currentUser) // check if already dislike
+          if(!isLike && !isDisLike) { // first try !
+            this.object[action].push(currentUser);
+          }
+          if(isDisLike){
+            this.object.dislike = _.without(this.object.dislike, _.find(this.object.dislike, currentUser)); // erease on dislike
+            this.object.like.push(currentUser);
+          }else if (isLike) {
+            this.object.like = _.without(this.object.like, _.find(this.object.like, currentUser)); // erease on dislike
+            this.object.dislike.push(currentUser);
+          }
+          var service = document.createElement('service-fm');
+          service.put(_.clone(this.object));
+        }
+        return;
       }
     });
   </script>
