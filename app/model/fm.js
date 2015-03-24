@@ -45,7 +45,8 @@ function update(object){
   object.like = hydrator.unLazyLoad(object.like);
   object.dislike = hydrator.unLazyLoad(object.dislike);
   object.followers = hydrator.unLazyLoad(object.followers);
-  object.author = hydrator.unHydrate(object.author);
+  object.author = hydrator.unhydrate(object.author);
+  console.log(object);
   /*var element = _db
           .chain()
           .find({uid:object.uid, type:'Fm'})
@@ -56,7 +57,7 @@ function update(object){
 };
 
 function convertToObjet(json){
-  var obj = json;
+  var obj = _.clone(json);
   obj.author = JSON.parse(obj.author);
   obj.followers = JSON.parse(obj.followers);
   obj.like = JSON.parse(obj.like);

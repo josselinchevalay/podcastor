@@ -21,7 +21,6 @@ module.exports = function(app, passport) {
   });
   app.put(path, ensureAuthenticated, function(req, resp){
     var fm = model.convert(req.body);
-    console.log(fm);
     if(model.findById(fm.uid)) {
       var check = model.update(fm);
     }
