@@ -8,32 +8,37 @@ View login
 <link rel="import" href="../../../libs/paper-elements/paper-elements.html" />
 <link rel="import" href="../../../libs/core-elements/core-elements.html" />
 
-<link rel="import" href="../Service/Fm.html"/>
-<link rel="import" href="../Components/Fm.html"/>
+<link rel="import" href="../Service/Fm.html" />
+<link rel="import" href="../Components/Fm.html" />
 
 <polymer-element name="view-fm" attribute="fms">
   <template>
     <style>
-    :host {
-      display: block;
-      position: relative;
-      padding: 20px;
-      font-size: 1.2rem;
-      font-weight: 300;
-      background-color:white;
-    }
-    .fm {
-     margin-bottom: 30px;
-   }
+      :host {
+        display: block;
+        position: relative;
+        padding: 20px;
+        font-size: 1.2rem;
+        font-weight: 300;
+        background-color: white;
+      }
+      .fm {
+        margin-bottom: 30px;
+      }
     </style>
     <div>
       <h1> FM </h1>
-    <div>
-    <div class="table">
-      <template repeat="{{fm in fms}}">
-          <components-fm object='{{fm}}' visualisation='mini' class="fm"></components-fm>
-      </template>
-    </div>
+      <div>
+        <div class="search">
+          <span> Desgin Search </span>
+          <span> Desing add FM
+            <span>
+        </div>
+        <div class="table">
+          <template repeat="{{fm in fms}}">
+            <components-fm object='{{fm}}' visualisation='mini' class="fm"></components-fm>
+          </template>
+        </div>
   </template>
   <script>
     Polymer("view-fm", {
@@ -41,7 +46,7 @@ View login
         var self = this;
         var service = document.createElement('service-fm');
         this.app = document.getElementById('app');
-        service.addEventListener('service-fm-get', function(event){
+        service.addEventListener('service-fm-get', function(event) {
           self.fms = service.fm;
         });
       }

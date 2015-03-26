@@ -16,18 +16,28 @@ Components FM
 
 <polymer-element name="components-fm" attributes="visualisation object">
   <style>
-
   </style>
   <template>
     <div class="element">
       <h2>
-         {{object.name}}
-         <paper-icon-button icon="arrow-drop-down" data-visualisation="{{visualisation}}" on-click="{{changeVisualisation}}"></paper-icon-button>
+        {{object.name}}
+        <paper-icon-button icon="arrow-drop-down" data-visualisation="{{visualisation}}" on-click="{{changeVisualisation}}"></paper-icon-button>
+        <templates bind if="{{isAuthor}}">
+          <paper-button> Delete </paper-button>
+          <paper-button> Update </paper-button>
+          <paper-button> Upload podcast </paper-button>
+        </templates>
       </h2>
       <template bind if="{{visualisation == 'maxi'}}">
-        <p><label>Description : </label>{{object.description}}</p>
-        <p><label>PodCast : </label>{{object.podcast.length}}</p>
-        <p><label>Author : </label> {{object.author.pseudo.givenName}} {{object.author.pseudo.familyName}}</p>
+        <p>
+          <label>Description : </label>{{object.description}}
+        </p>
+        <p>
+          <label>PodCast : </label>{{object.podcast.length}}
+        </p>
+        <p>
+          <label>Author : </label> {{object.author.pseudo.givenName}} {{object.author.pseudo.familyName}}
+        </p>
       </template>
       <template bind if="{{visualisation == 'mini'}}">
       </template>
@@ -40,34 +50,40 @@ Components FM
   </template>
   <script>
     Polymer('components-fm', {
-      ready:function(){
+      ready: function() {
         this.app = document.getElementById('app');
         return;
       },
-      changeVisualisation: function(event){
-         var elmt = event.target;
-         var visu = elmt.getAttribute('data-visualisation');
-         if (visu == 'mini') {
-           this.visualisation = 'maxi'
-           elmt.icon = 'arrow-drop-up';
-         }else{
-           this.visualisation = 'mini'
-           elmt.icon = 'arrow-drop-down';
-         }
-         return;
+      isAuthor: function() {
+        if (this.object.author.uid == app.Storage.User.uid) {
+          return true;
+        }
+        return false;
       },
-      judgement: function(event){
+      changeVisualisation: function(event) {
+        var elmt = event.target;
+        var visu = elmt.getAttribute('data-visualisation');
+        if (visu == 'mini') {
+          this.visualisation = 'maxi'
+          elmt.icon = 'arrow-drop-up';
+        } else {
+          this.visualisation = 'mini'
+          elmt.icon = 'arrow-drop-down';
+        }
+        return;
+      },
+      judgement: function(event) {
         var action = event.target.getAttribute('data-action');
-        if(currentUser = this.app.Storage.User) {
+        if (currentUser = this.app.Storage.User) {
           var isLike = _.find(this.object.like, currentUser); // check if already like
           var isDisLike = _.find(this.object.dislike, currentUser) // check if already dislike
-          if(!isLike && !isDisLike) { // first try !
+          if (!isLike && !isDisLike) { // first try !
             this.object[action].push(currentUser);
           }
-          if(isDisLike){
+          if (isDisLike) {
             this.object.dislike = _.without(this.object.dislike, _.find(this.object.dislike, currentUser)); // erease on dislike
             this.object.like.push(currentUser);
-          }else if (isLike) {
+          } else if (isLike) {
             this.object.like = _.without(this.object.like, _.find(this.object.like, currentUser)); // erease on dislike
             this.object.dislike.push(currentUser);
           }
@@ -77,9 +93,9 @@ Components FM
         return;
       },
       follow: function() {
-        if(currentUser = this.app.Storgae.User) {
+        if (currentUser = this.app.Storgae.User) {
           var isFollow = _.find(this.object.followers, currentUser);
-          if(!isFollow) {
+          if (!isFollow) {
             this.object.followers.psuh(currentUser);
           }
           var service = document.createElement('service-fm');
