@@ -46,14 +46,13 @@ function update(object){
   object.dislike = hydrator.unLazyLoad(object.dislike);
   object.followers = hydrator.unLazyLoad(object.followers);
   object.author = hydrator.unhydrate(object.author);
-  console.log(object);
-  /*var element = _db
+  var element = _db
           .chain()
           .find({uid:object.uid, type:'Fm'})
           .assign(object)
           .value();
   database.Db.save();
-  return element;*/
+  return element;
 };
 
 function convertToObjet(json){

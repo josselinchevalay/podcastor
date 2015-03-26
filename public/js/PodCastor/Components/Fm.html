@@ -34,7 +34,7 @@ Components FM
       <div class="stats">
         <paper-icon-button icon="social:plus-one" label="{{object.like.length}}" data-action="like" on-click="{{judgement}}"></paper-icon-button>
         <paper-icon-button icon="social:plus-one" label="{{object.dislike.length}}" data-action="dislike" on-click="{{judgement}}"></paper-icon-button>
-        <paper-icon-button icon="social:people" label="{{object.followers.length}}"></paper-icon-button>
+        <paper-icon-button icon="social:people" label="{{object.followers.length}}" on-click={{follow}}></paper-icon-button>
       </div>
     </div>
   </template>
@@ -73,6 +73,17 @@ Components FM
           }
           var service = document.createElement('service-fm');
           service.put(_.clone(this.object));
+        }
+        return;
+      },
+      follow: function() {
+        if(currentUser = this.app.Storgae.User) {
+          var isFollow = _.find(this.object.followers, currentUser);
+          if(!isFollow) {
+            this.object.followers.psuh(currentUser);
+          }
+          var service = document.createElement('service-fm');
+          service.put(_.cloen(this.object));
         }
         return;
       }
