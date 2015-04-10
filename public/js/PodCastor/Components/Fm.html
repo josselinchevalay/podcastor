@@ -93,13 +93,15 @@ Components FM
         return;
       },
       follow: function() {
-        if (currentUser = this.app.Storgae.User) {
+        if (currentUser = this.app.Storage.User) {
           var isFollow = _.find(this.object.followers, currentUser);
           if (!isFollow) {
-            this.object.followers.psuh(currentUser);
+            this.object.followers.push(currentUser);
+          }else{
+            this.object.followers = _.without(this.object.followers, _.find(this.object.followers, currentUser)); // erease on dislike
           }
           var service = document.createElement('service-fm');
-          service.put(_.cloen(this.object));
+          service.put(_.clone(this.object));
         }
         return;
       }

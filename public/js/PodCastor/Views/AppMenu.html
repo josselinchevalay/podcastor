@@ -17,12 +17,6 @@ View AppMenu
     </style>
     <div>
       <core-menu selected="0">
-      <!--  <template bind if="{{app.Storage.User}}">
-          <core-submenu id="core_submenu" label="Account">
-            <core-item id="core_item" label="Podcast"></core-item>
-            <core-item id="core_item1" label="FM"></core-item>
-          </core-submenu>
-        </template>-->
         <core-submenu id="core_submenu1" label="App" on-core-select="{{selectAction}}">
           <template bind if="{{app.Storage.User}}">
             <core-item id="core_item2" label="Fm"></core-item>
