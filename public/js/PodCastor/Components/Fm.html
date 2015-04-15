@@ -23,9 +23,9 @@ Components FM
         {{object.name}}
         <paper-icon-button icon="arrow-drop-down" data-visualisation="{{visualisation}}" on-click="{{changeVisualisation}}"></paper-icon-button>
         <templates bind if="{{isAuthor}}">
-          <paper-button> Delete </paper-button>
-          <paper-button> Update </paper-button>
-          <paper-button> Upload podcast </paper-button>
+          <paper-button icon="delete" on-click="{{confirmDelete}}"></paper-button>
+          <paper-button icon="refresh" on-click=""></paper-button>
+          <paper-button icon="cloud-upload" on-click=""></paper-button>
         </templates>
       </h2>
       <template bind if="{{visualisation == 'maxi'}}">
@@ -47,6 +47,14 @@ Components FM
         <paper-icon-button icon="social:people" label="{{object.followers.length}}" on-click={{follow}}></paper-icon-button>
       </div>
     </div>
+
+    <!-- Modal for comfirm to delete fm !-->
+    <paper-dialog heading="Are you sure ? to delete {{object.name}}" transition="core-transition-bottom" id="delete">
+    <h2> Please confirm your action : </h2>
+    <paper-button label="No" on-click="{{closeDeleteModal}}"></paper-button>
+    <paper-button label="Yes"></paper-button>
+    </paper-dialog>
+
   </template>
   <script>
     Polymer('components-fm', {
@@ -104,7 +112,23 @@ Components FM
           service.put(_.clone(this.object));
         }
         return;
-      }
+      },
+     confirmDelete: function() {
+       var modal = this.$.delete;
+       modal.backdrop = true;
+       modal.toggle();
+       return;
+     },
+     closeDeleteModal : function(){
+       var modal = this.$.delete;
+       modal.close = true;
+       modal.toggle();
+       return;
+     },
+     delete : function()
+     {
+       
+     }
     });
   </script>
 </polymer-element>
