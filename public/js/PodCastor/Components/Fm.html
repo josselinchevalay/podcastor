@@ -22,11 +22,11 @@ Components FM
       <h2>
         {{object.name}}
         <paper-icon-button icon="arrow-drop-down" data-visualisation="{{visualisation}}" on-click="{{changeVisualisation}}"></paper-icon-button>
-        <templates bind if="{{isAuthor}}">
+        <template bind if="{{isAuthor}}">
           <paper-button icon="delete" on-click="{{confirmDelete}}"></paper-button>
           <paper-button icon="refresh" on-click=""></paper-button>
           <paper-button icon="cloud-upload" on-click=""></paper-button>
-        </templates>
+        </template>
       </h2>
       <template bind if="{{visualisation == 'maxi'}}">
         <p>
@@ -60,13 +60,8 @@ Components FM
     Polymer('components-fm', {
       ready: function() {
         this.app = document.getElementById('app');
+        this.isAuthor = this.object.author.uid === this.app.Storage.User.uid;
         return;
-      },
-      isAuthor: function() {
-        if (this.object.author.uid == app.Storage.User.uid) {
-          return true;
-        }
-        return false;
       },
       changeVisualisation: function(event) {
         var elmt = event.target;
@@ -127,7 +122,10 @@ Components FM
      },
      delete : function()
      {
-       
+       // TODO use the service for delete current object
+     },
+     update: function(){
+
      }
     });
   </script>
