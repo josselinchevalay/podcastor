@@ -23,8 +23,8 @@ Components FM
         {{object.name}}
         <paper-icon-button icon="arrow-drop-down" data-visualisation="{{visualisation}}" on-click="{{changeVisualisation}}"></paper-icon-button>
         <template bind if="{{isAuthor}}">
-          <paper-button icon="delete" on-click="{{confirmDelete}}"></paper-button>
-          <paper-button icon="refresh" on-click=""></paper-button>
+          <paper-button icon="delete" on-click="{{openModal}}" data-action="delete"></paper-button>
+          <paper-button icon="refresh" on-click="{{openModal}}" data-action="update"></paper-button>
           <paper-button icon="cloud-upload" on-click=""></paper-button>
         </template>
       </h2>
@@ -51,8 +51,26 @@ Components FM
     <!-- Modal for comfirm to delete fm !-->
     <paper-dialog heading="Are you sure ? to delete {{object.name}}" transition="core-transition-bottom" id="delete">
     <h2> Please confirm your action : </h2>
-    <paper-button label="No" on-click="{{closeDeleteModal}}"></paper-button>
-    <paper-button label="Yes"></paper-button>
+    <paper-button label="No" on-click="{{closeModal}}" data-action="delete"></paper-button>
+    <paper-button label="Yes" on-click="{{delete}}"></paper-button>
+    </paper-dialog>
+
+    <!-- Modal for update fm !-->
+    <paper-dialog heading="Update : {{object.name}}" transition="core-transition-bottom" id="update">
+    <div>
+      <form name="updateForm" novalidate>
+        <paper-field>
+          <paper-input label="Name : " value="{{object.name}}" type="text" required><paper-input>
+        </paper-field>
+       <paper-field>
+        <paper-input  multiline label="Description : " value="{{object.description}}" type="text" required><paper-input>
+      </paper-field>
+      <paper-field>
+        <paper-button label="No" on-click="{{closeModal}}" data-action="update"></paper-button>
+        <paper-button label="Yes"></paper-button>
+      </paper-field>
+      </form>
+    </div>
     </paper-dialog>
 
   </template>
@@ -61,6 +79,12 @@ Components FM
       ready: function() {
         this.app = document.getElementById('app');
         this.isAuthor = this.object.author.uid === this.app.Storage.User.uid;
+        // TODO voir workflow pour l'update
+        this.$.update.addEventListener('core-overlay-open', function(event){ // add event listener on modal update
+          if(event.detail == false) {
+            console.log('modal update closed');
+          }
+        });
         return;
       },
       changeVisualisation: function(event) {
@@ -108,24 +132,23 @@ Components FM
         }
         return;
       },
-     confirmDelete: function() {
-       var modal = this.$.delete;
-       modal.backdrop = true;
-       modal.toggle();
-       return;
-     },
-     closeDeleteModal : function(){
-       var modal = this.$.delete;
-       modal.close = true;
-       modal.toggle();
-       return;
-     },
      delete : function()
      {
-       // TODO use the service for delete current object
+       throw new Error('not implemented');
      },
-     update: function(){
-
+     openModal: function(event){
+      var actionName = event.target.dataset.action;
+      var modal = this.$[actionName];
+      modal.backdrop = true;
+      modal.toggle();
+      return;
+     },
+     closeModal: function(event){
+      var actionName = event.target.dataset.action;
+      var modal = this.$[actionName];
+      modal.close = true;
+      modal.toggle();
+      return;
      }
     });
   </script>
