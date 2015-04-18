@@ -1,0 +1,58 @@
+<!--
+Modal 
+@Author Josselin CHEVALAY <josselin54.chevalay@gmail.com
+@package js/Podcastor/Components/
+-->
+
+<link rel="import" href="../../../libs/polymer/polymer.html">
+<link rel="import" href="../../../libs/core-icons/core-icons.html">
+<link rel="import" href="../../../libs/core-input/core-input.html">
+<link rel="import" href="../../../libs/core-icons/social-icons.html">
+<link rel="import" href="../../../libs/core-field/core-field.html">
+<link rel="import" href="../../../libs/paper-button/paper-button.html">
+<link rel="import" href="../../../libs/paper-icon-button/paper-icon-button.html">
+
+
+<polymer-element name="modal-delete" attributes="collection object service">
+<style>
+</style>
+<template>
+    <paper-button icon="delete" on-click="{{openModal}}" data-action="delete"></paper-button>
+
+    <!-- Modal for comfirm to delete fm !-->
+    <paper-dialog heading="Are you sure ? to delete {{object.name}}" transition="core-transition-bottom" id="delete">
+    <h2> Please confirm your action : </h2>
+    <paper-button label="No" on-click="{{closeModal}}" data-action="delete"></paper-button>
+    <paper-button label="Yes" on-click="{{delete}}"></paper-button>
+    </paper-dialog>
+</template>
+<script>
+Polymer('modal-delete', {
+    ready: function(){
+        this.app = document.getElementById('app');
+    },
+    openModal: function(event){
+      var actionName = event.target.dataset.action;
+      var modal = this.$[actionName];
+      modal.backdrop = true;
+      modal.toggle();
+      return;
+     },
+     closeModal: function(event){
+      var actionName = event.target.dataset.action;
+      var modal = this.$[actionName];
+      modal.close = true;
+      modal.toggle();
+      return;
+     },
+     delete: function(){
+      var element = _.find(this.collection, this.object);
+      this.$.delete.toggle();
+      this.app.alert('Fm deleted ! ');
+      this.collection = _.without(this.collection, element);
+      console.log(element);
+      return;
+     }
+}); 
+</script>
+</polymer-element>

@@ -36,7 +36,7 @@ View login
         </div>
         <div class="table">
           <template repeat="{{fm in fms}}">
-            <components-fm object='{{fm}}' visualisation='mini' class="fm"></components-fm>
+            <components-fm object='{{fm}}' visualisation='mini' class="fm" collection="{{fms}}"></components-fm>
           </template>
         </div>
   </template>

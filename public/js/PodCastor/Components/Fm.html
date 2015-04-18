@@ -11,10 +11,12 @@ Components FM
 <link rel="import" href="../../../libs/paper-button/paper-button.html">
 <link rel="import" href="../../../libs/paper-icon-button/paper-icon-button.html">
 
+<link rel="import" href="../Modal/deleteModal.html">
+
 <link rel="import" href="../Service/Fm.html">
 
 
-<polymer-element name="components-fm" attributes="visualisation object">
+<polymer-element name="components-fm" attributes="visualisation object collection">
   <style>
   </style>
   <template>
@@ -23,7 +25,7 @@ Components FM
         {{object.name}}
         <paper-icon-button icon="arrow-drop-down" data-visualisation="{{visualisation}}" on-click="{{changeVisualisation}}"></paper-icon-button>
         <template bind if="{{isAuthor}}">
-          <paper-button icon="delete" on-click="{{openModal}}" data-action="delete"></paper-button>
+          <modal-delete object="{{object}}" service="{{service}}" collection="{{collection}}"></modal-delete>
           <paper-button icon="refresh" on-click="{{openModal}}" data-action="update"></paper-button>
           <paper-button icon="cloud-upload" on-click=""></paper-button>
         </template>
@@ -48,13 +50,6 @@ Components FM
       </div>
     </div>
 
-    <!-- Modal for comfirm to delete fm !-->
-    <paper-dialog heading="Are you sure ? to delete {{object.name}}" transition="core-transition-bottom" id="delete">
-    <h2> Please confirm your action : </h2>
-    <paper-button label="No" on-click="{{closeModal}}" data-action="delete"></paper-button>
-    <paper-button label="Yes" on-click="{{delete}}"></paper-button>
-    </paper-dialog>
-
     <!-- Modal for update fm !-->
     <paper-dialog heading="Update : {{object.name}}" transition="core-transition-bottom" id="update">
     <div>
@@ -67,7 +62,7 @@ Components FM
       </paper-field>
       <paper-field>
         <paper-button label="No" on-click="{{closeModal}}" data-action="update"></paper-button>
-        <paper-button label="Yes"></paper-button>
+        <paper-button label="Yes" on-click="{{update}}"></paper-button>
       </paper-field>
       </form>
     </div>
@@ -79,6 +74,8 @@ Components FM
       ready: function() {
         this.app = document.getElementById('app');
         this.isAuthor = this.object.author.uid === this.app.Storage.User.uid;
+        this.service = document.createElement('service-fm');
+        this.current = this;
         // TODO voir workflow pour l'update
         this.$.update.addEventListener('core-overlay-open', function(event){ // add event listener on modal update
           if(event.detail == false) {
@@ -136,18 +133,12 @@ Components FM
      {
        throw new Error('not implemented');
      },
-     openModal: function(event){
-      var actionName = event.target.dataset.action;
-      var modal = this.$[actionName];
-      modal.backdrop = true;
-      modal.toggle();
-      return;
-     },
-     closeModal: function(event){
-      var actionName = event.target.dataset.action;
-      var modal = this.$[actionName];
-      modal.close = true;
-      modal.toggle();
+     update: function(){
+      var service = document.createElement('service-fm');
+      service.put(_.clone(this.object));
+      this.$.update.close = true;
+      this.$.update.toggle();
+      this.app.alert('FM updated !');
       return;
      }
     });
