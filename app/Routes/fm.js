@@ -25,4 +25,16 @@ module.exports = function(app, passport) {
       var check = model.update(fm);
     }
   });
+  app.delete(path, ensureAuthenticated, function(req, resp){
+     var fm = model.convert(req.body);
+     try{
+        model.remove(fm);
+        resp.status = 200;
+        resp.send();
+     }catch(ex) {
+        resp.status = 500;
+        console.log(ex);
+        resp.json(ex);
+     }
+  });
 };

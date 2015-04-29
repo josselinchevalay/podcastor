@@ -50,12 +50,21 @@ Service Fm
         ajax.params = this.toJson(entity);
         ajax.go();
         ajax.addEventListener('core-response', function(data){
-          this.get({});
+
         });
         return;
       },
-      remove: function() {
-
+      delete: function(entity) {
+          var self = this;
+          var ajax = document.createElement("core-ajax");
+          ajax.method = "DELETE";
+          ajax.handleAs = 'json';
+          ajax.url = this.URL;
+          ajax.params = this.toJson(entity);
+          ajax.go();
+          ajax.addEventListener('core-response', function(data){
+            self.fire('element-deleted', {});
+          });
       },
       createEntity: function() {
         return document.createElement("model-fm");

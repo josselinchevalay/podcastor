@@ -1,7 +1,7 @@
 /**
  *
  */
-'use strict'
+
 
 var _         = require('underscore')
 var database  = require('../../config/config')
@@ -55,6 +55,21 @@ function update(object){
   return element;
 };
 
+function remove(object){
+  object.author.fms = _.without(object.author.fms, object); // erease relation between Author => fm
+  _db
+    .chain()
+    .find({uid: object.author.uid, type:'User' })
+    .assign(object.author)
+    .value(); // update user
+  
+  _db.remove(_db.find({uid: object.uid, type:'Fm'}));
+  database.Db.save();
+  console.log(_db.find(object));
+   
+  return;
+}
+
 function convertToObjet(json){
   var obj = _.clone(json);
   obj.author = JSON.parse(obj.author);
@@ -69,5 +84,6 @@ module.exports = {
   add: add,
   findById: findById,
   update: update,
+  remove: remove,
   convert: convertToObjet
 };

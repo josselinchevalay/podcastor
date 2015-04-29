@@ -16,7 +16,7 @@ Components FM
 <link rel="import" href="../Service/Fm.html">
 
 
-<polymer-element name="components-fm" attributes="visualisation object collection">
+<polymer-element name="components-fm" attributes="visualisation object parent">
   <style>
   </style>
   <template>
@@ -25,7 +25,7 @@ Components FM
         {{object.name}}
         <paper-icon-button icon="arrow-drop-down" data-visualisation="{{visualisation}}" on-click="{{changeVisualisation}}"></paper-icon-button>
         <template bind if="{{isAuthor}}">
-          <modal-delete object="{{object}}" service="{{service}}" collection="{{collection}}"></modal-delete>
+          <modal-delete object="{{object}}" service="{{service}}" parent="{{parent}}"></modal-delete>
           <paper-button icon="refresh" on-click="{{openModal}}" data-action="update"></paper-button>
           <paper-button icon="cloud-upload" on-click=""></paper-button>
         </template>
