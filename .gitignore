@@ -4,3 +4,4 @@ azure.err
 node_modules/
 jsmeter/
 db.json
+.settings
