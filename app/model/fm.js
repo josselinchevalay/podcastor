@@ -65,7 +65,6 @@ function remove(object){
   
   _db.remove(_db.find({uid: object.uid, type:'Fm'}));
   database.Db.save();
-  console.log(_db.find(object));
    
   return;
 }
