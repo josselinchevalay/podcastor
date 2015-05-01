@@ -50,7 +50,7 @@ Service Fm
         ajax.params = this.toJson(entity);
         ajax.go();
         ajax.addEventListener('core-response', function(data){
-
+                self.fire('element-updated', {});
         });
         return;
       },

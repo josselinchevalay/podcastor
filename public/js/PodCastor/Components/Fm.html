@@ -12,6 +12,7 @@ Components FM
 <link rel="import" href="../../../libs/paper-icon-button/paper-icon-button.html">
 
 <link rel="import" href="../Modal/deleteModal.html">
+<link rel="import" href="../Modal/updateModal.html">
 
 <link rel="import" href="../Service/Fm.html">
 
@@ -26,7 +27,7 @@ Components FM
         <paper-icon-button icon="arrow-drop-down" data-visualisation="{{visualisation}}" on-click="{{changeVisualisation}}"></paper-icon-button>
         <template bind if="{{isAuthor}}">
           <modal-delete object="{{object}}" service="{{service}}" parent="{{parent}}"></modal-delete>
-          <paper-button icon="refresh" on-click="{{openModal}}" data-action="update"></paper-button>
+          <modal-update object="{{object}}" service="{{service}}" parent="{{parent}}"></modal-update>
           <paper-button icon="cloud-upload" on-click=""></paper-button>
         </template>
       </h2>
@@ -49,25 +50,6 @@ Components FM
         <paper-icon-button icon="social:people" label="{{object.followers.length}}" on-click={{follow}}></paper-icon-button>
       </div>
     </div>
-
-    <!-- Modal for update fm !-->
-    <paper-dialog heading="Update : {{object.name}}" transition="core-transition-bottom" id="update">
-    <div>
-      <form name="updateForm" novalidate>
-        <paper-field>
-          <paper-input label="Name : " value="{{object.name}}" type="text" required><paper-input>
-        </paper-field>
-       <paper-field>
-        <paper-input  multiline label="Description : " value="{{object.description}}" type="text" required><paper-input>
-      </paper-field>
-      <paper-field>
-        <paper-button label="No" on-click="{{closeModal}}" data-action="update"></paper-button>
-        <paper-button label="Yes" on-click="{{update}}"></paper-button>
-      </paper-field>
-      </form>
-    </div>
-    </paper-dialog>
-
   </template>
   <script>
     Polymer('components-fm', {
@@ -76,12 +58,6 @@ Components FM
         this.isAuthor = this.object.author.uid === this.app.Storage.User.uid;
         this.service = document.createElement('service-fm');
         this.current = this;
-        // TODO voir workflow pour l'update
-        this.$.update.addEventListener('core-overlay-open', function(event){ // add event listener on modal update
-          if(event.detail == false) {
-            console.log('modal update closed');
-          }
-        });
         return;
       },
       changeVisualisation: function(event) {
@@ -132,15 +108,7 @@ Components FM
      delete : function()
      {
        throw new Error('not implemented');
-     },
-     update: function(){
-      var service = document.createElement('service-fm');
-      service.put(_.clone(this.object));
-      this.$.update.close = true;
-      this.$.update.toggle();
-      this.app.alert('FM updated !');
-      return;
-     }
+     }     
     });
   </script>
 </polymer-element>
