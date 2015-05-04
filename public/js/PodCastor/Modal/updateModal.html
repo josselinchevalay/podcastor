@@ -13,7 +13,7 @@ Modal
 <link rel="import" href="../../../libs/paper-icon-button/paper-icon-button.html">
 
 
-<polymer-element name="modal-update" attributes="parent object service">
+<polymer-element name="modal-update" attributes="parent object service properties">
 <style>
 </style>
 <template>
@@ -23,7 +23,13 @@ Modal
     <paper-dialog heading="Update : {{object.name}}" transition="core-transition-bottom" id="update">
     <div>
       <form name="updateForm" novalidate>
-      <paper-field name="form-action">
+      <template repeat="{{data, index in properties}}">
+            
+            <paper-field>
+                  <paper-input type="text" value="{{ object[data] }}"></paper-input>                  
+            </paper-field>
+      </template>
+      <paper-field name="">
         <paper-button label="No" on-click="{{closeModal}}" data-action="update"></paper-button>
         <paper-button label="Yes" on-click="{{update}}"></paper-button>
       </paper-field>
@@ -42,7 +48,6 @@ Polymer('modal-update', {
         });
     },
     openModal: function(event){
-      this.generateForm();
       var actionName = event.target.dataset.action;
       var modal = this.$[actionName];
       modal.backdrop = true;
@@ -66,25 +71,6 @@ Polymer('modal-update', {
             self.app.navigateTo(self.parent);
       });
       return;
-     },
-     stringProperty : function(){
-           return _.map(this.object, function(data, key){
-                 return (typeof data != 'object' && key != 'uid') ? key : null;
-           });
-     },
-     generateForm: function(){
-      var self = this;
-      var fields = this.stringProperty();
-      _.each(fields, function (row) {
-            if (row == null) {
-                  return;
-            }
-            var field = document.createElement('paper-field');
-            var input = document.createElement('paper-input');
-            input.value = self.object[row];
-            field.appendChild(input);
-            self.$.update.appendChild(field);
-      });    
      }
 }); 
 </script>

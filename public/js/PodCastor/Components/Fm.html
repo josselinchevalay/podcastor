@@ -27,7 +27,7 @@ Components FM
         <paper-icon-button icon="arrow-drop-down" data-visualisation="{{visualisation}}" on-click="{{changeVisualisation}}"></paper-icon-button>
         <template bind if="{{isAuthor}}">
           <modal-delete object="{{object}}" service="{{service}}" parent="{{parent}}"></modal-delete>
-          <modal-update object="{{object}}" service="{{service}}" parent="{{parent}}"></modal-update>
+          <modal-update object="{{object}}" service="{{service}}" parent="{{parent}}" properties="{{propertiesMap}}"></modal-update>
           <paper-button icon="cloud-upload" on-click=""></paper-button>
         </template>
       </h2>
@@ -58,6 +58,7 @@ Components FM
         this.isAuthor = this.object.author.uid === this.app.Storage.User.uid;
         this.service = document.createElement('service-fm');
         this.current = this;
+        this.propertiesMap = ['name', 'description'];
         return;
       },
       changeVisualisation: function(event) {
