@@ -23,10 +23,11 @@ Modal
     <paper-dialog heading="Update : {{object.name}}" transition="core-transition-bottom" id="update">
     <div>
       <form name="updateForm" novalidate>
-      <template repeat="{{data, index in properties}}">
-            
-            <paper-field>
-                  <paper-input type="text" value="{{ object[data] }}"></paper-input>                  
+      <template repeat="{{key, index in properties| filterKeys}}">        
+            <paper-field> 
+                  <template if="{{properties[key].type == 'text'}}">
+                        <paper-input type="text" value="{{ object[key] }}"></paper-input>
+                  </template>                                                                 
             </paper-field>
       </template>
       <paper-field name="">
@@ -71,7 +72,11 @@ Polymer('modal-update', {
             self.app.navigateTo(self.parent);
       });
       return;
-     }
+     },
+     filterKeys: function()
+      {
+          return Object.keys(this.properties);
+      }
 }); 
 </script>
 </polymer-element>

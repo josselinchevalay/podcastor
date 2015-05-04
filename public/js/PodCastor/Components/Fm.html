@@ -58,7 +58,7 @@ Components FM
         this.isAuthor = this.object.author.uid === this.app.Storage.User.uid;
         this.service = document.createElement('service-fm');
         this.current = this;
-        this.propertiesMap = ['name', 'description'];
+        this.propertiesMap = {'name':{'type':'text'}, 'description':{'type':'text'}};
         return;
       },
       changeVisualisation: function(event) {
