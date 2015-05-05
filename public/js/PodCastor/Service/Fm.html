@@ -66,8 +66,10 @@ Service Fm
             self.fire('element-deleted', {});
           });
       },
-      createEntity: function() {
-        return document.createElement("model-fm");
+      createEntity: function(author) {
+        var model = new Fm();
+        model.author = author;
+        return model;
       },
       toJson : function(obj){
         toString = obj;
@@ -79,4 +81,5 @@ Service Fm
       }
     });
   </script>
+ <script src="../Model/fm.js"></script>
 </polymer-element>
