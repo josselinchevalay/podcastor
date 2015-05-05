@@ -10,6 +10,7 @@ View login
 
 <link rel="import" href="../Service/Fm.html" />
 <link rel="import" href="../Components/Fm.html" />
+<link rel="import" href="../Modal/addModal.html" />
 
 <polymer-element name="view-fm" attribute="fms">
   <template>
@@ -31,8 +32,7 @@ View login
       <div>
         <div class="search">
           <span> Desgin Search </span>
-          <span> Desing add FM
-            <span>
+          <modal-add object="{{returnObject()}}" service="{{service}}" parent="Fm" properties="{{propertiesMap}}"></modal-update>
         </div>
         <div class="table">
           <template repeat="{{fm in fms}}">
@@ -44,11 +44,18 @@ View login
     Polymer("view-fm", {
       ready: function() {
         var self = this;
-        var service = document.createElement('service-fm');
-        this.app = document.getElementById('app');
-        service.addEventListener('service-fm-get', function(event) {
-          self.fms = service.fm;
+        this.service.addEventListener('service-fm-get', function(event) {
+          self.fms = self.service.fm;
         });
+      },
+      returnObject: function(){
+       this.init();
+        return this.service.createEntity(this.app.Storage.User);
+      },
+      init: function(){
+        this.app = document.getElementById('app');
+        this.propertiesMap ={'name':{'type':'text'}, 'description':{'type':'text'}}; 
+        this.service = document.createElement('service-fm');
       }
     });
   </script>

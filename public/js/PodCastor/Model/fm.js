@@ -5,9 +5,9 @@
  */
  
  var Fm = function() {
-	this.name 			= null;
-	this.description 	= null;
-	this.author 		= null;
+	this.name 			= '';
+	this.description 	= '';
+	this.author 		= '';
 	this.type 			= 'Fm';
 	this.like 			= [];
 	this.dislike 		= [];

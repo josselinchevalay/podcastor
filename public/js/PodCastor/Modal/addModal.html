@@ -1,0 +1,74 @@
+<!--
+Modal 
+@Author Josselin CHEVALAY <josselin54.chevalay@gmail.com
+@package js/Podcastor/Components/
+-->
+
+<link rel="import" href="../../../libs/polymer/polymer.html">
+<link rel="import" href="../../../libs/core-icons/core-icons.html">
+<link rel="import" href="../../../libs/core-input/core-input.html">
+<link rel="import" href="../../../libs/core-icons/social-icons.html">
+<link rel="import" href="../../../libs/core-field/core-field.html">
+<link rel="import" href="../../../libs/paper-button/paper-button.html">
+<link rel="import" href="../../../libs/paper-icon-button/paper-icon-button.html">
+
+
+<polymer-element name="modal-add" attributes="parent object service properties">
+<style>
+</style>
+<template>
+     <paper-button icon="add-circle-outline" on-click="{{openModal}}" data-action="create"></paper-button>
+
+    <!-- Modal for update fm !-->
+    <paper-dialog heading="Create : {{object.type}}" transition="core-transition-bottom" id="create">
+    <div>
+      <form name="createForm" novalidate>
+      <template repeat="{{key, index in properties| filterKeys}}">        
+            <paper-field> 
+                  <template if="{{properties[key].type == 'text'}}">
+                        <paper-input type="text" value="{{ object[key] }}"></paper-input>
+                  </template>                                                                 
+            </paper-field>
+      </template>
+      <paper-field name="">
+        <paper-button label="No" on-click="{{closeModal}}" data-action="create"></paper-button>
+        <paper-button label="Yes" on-click="{{}}"></paper-button>
+      </paper-field>
+      </form>
+    </div>
+    </paper-dialog>
+</template>
+<script>
+Polymer('modal-add', {
+    ready: function(){
+       console.log(this.object);
+        this.app = document.getElementById('app');        
+        this.$.create.addEventListener('core-overlay-open', function(event){ // add event listener on modal update
+          if(event.detail == false) {
+            console.log('modal update closed');
+          }
+        });
+    },
+    openModal: function(event){
+      var actionName = event.target.dataset.action;
+      var modal = this.$[actionName];
+      modal.backdrop = true;
+      modal.toggle();
+      return;
+     },
+     closeModal: function(event){
+      var actionName = event.target.dataset.action;
+      var modal = this.$[actionName];
+      modal.close = true;
+      modal.toggle();
+      return;
+     },
+     filterKeys: function()
+      {
+          console.log(this.properties);
+          return Object.keys(this.properties);
+      }
+}); 
+  
+</script>
+</polymer-element>
