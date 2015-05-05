@@ -32,7 +32,7 @@ Modal
       </template>
       <paper-field name="">
         <paper-button label="No" on-click="{{closeModal}}" data-action="create"></paper-button>
-        <paper-button label="Yes" on-click="{{}}"></paper-button>
+        <paper-button label="Yes" on-click="{{create}}"></paper-button>
       </paper-field>
       </form>
     </div>
@@ -67,6 +67,17 @@ Polymer('modal-add', {
       {
           console.log(this.properties);
           return Object.keys(this.properties);
+      },
+      create: function(){
+        var self = this;
+      this.service.post(_.clone(this.object));
+      this.$.create.close = true;
+      this.$.create.toggle();
+      this.app.alert('FM created !');
+      this.service.addEventListener('service-fm-post', function(){
+            self.app.navigateTo(self.parent);
+      });
+      return;
       }
 }); 
   

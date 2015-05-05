@@ -25,7 +25,10 @@ Service Fm
         var ajax = document.createElement("core-ajax");
         ajax.method = "POST";
         ajax.url = this.URL;
-        ajax.params = entity;
+        ajax.params = this.toJson(entity);
+        ajax.addEventListener("core-response", function(data) {
+          self.fire("service-fm-post");
+        });
         ajax.go();
       },
       get: function(req) {

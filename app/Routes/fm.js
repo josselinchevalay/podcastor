@@ -1,6 +1,7 @@
 // ensure auth
 var path = '/api/fm'
-var model = require('../model/fm');
+var model = require('../model/fm')
+var uuid = require('node-uuid');
 
 function ensureAuthenticated(req, res, next) {
   if (req.isAuthenticated()) {
@@ -12,6 +13,14 @@ function ensureAuthenticated(req, res, next) {
 
 
 module.exports = function(app, passport) {
+  app.post(path, ensureAuthenticated, function(req, resp) {
+    console.log(req.body);
+    var fm = model.convert(req.body);
+    fm.uid = uuid.v4();
+    model.add(fm);
+    resp.status = 200;
+    resp.send();
+  });
   app.get(path, ensureAuthenticated, function(req, resp) {
     if (req.body.id) {
       var id = req.body.id;

@@ -30,6 +30,18 @@ function all() {
 };
 
 function add(fm) {
+  fm.author.fms.push(fm); // erease relation between Author => fm
+  _db
+    .chain()
+    .find({uid: fm.author.uid, type:'User' })
+    .assign(fm.author)
+    .value(); // update user
+    
+    
+  fm.like       = hydrator.unLazyLoad(fm.like);
+  fm.dislike    = hydrator.unLazyLoad(fm.dislike);
+  fm.followers  = hydrator.unLazyLoad(fm.followers);
+  fm.author     = hydrator.unhydrate(fm.author);
   _db.push(fm);
   database.Db.save();
   return;
