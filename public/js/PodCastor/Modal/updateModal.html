@@ -67,10 +67,8 @@ Polymer('modal-update', {
       this.service.put(_.clone(this.object));
       this.$.update.close = true;
       this.$.update.toggle();
-      this.app.alert('FM updated !');
-      this.service.addEventListener('element-updated', function(event){
-            
-            event.stopImmediatePropagation();
+      this.service.addEventListener('element-updated', function(event){            
+            self.app.alert('FM updated !');
             return;
       });
       return;

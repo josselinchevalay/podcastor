@@ -51,11 +51,9 @@ Polymer('modal-delete', {
       this.service.delete(_.clone(this.object));
       this.$.delete.toggle();
       this.service.addEventListener('element-deleted', function(event){
-        console.log(self.list);
         self.list = _.without(self.list, _.find(self.list, self.object));
-        console.log(self.list);
         self.app.alert('Fm deleted ! ');
-        event.stopImmediatePropagation();
+        //event.stopImmediatePropagation();
         return;
       });
       return;
