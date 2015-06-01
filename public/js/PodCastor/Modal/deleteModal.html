@@ -13,7 +13,7 @@ Modal
 <link rel="import" href="../../../libs/paper-icon-button/paper-icon-button.html">
 
 
-<polymer-element name="modal-delete" attributes="parent object service">
+<polymer-element name="modal-delete" attributes="parent object service list">
 <style>
 </style>
 <template>
@@ -47,11 +47,15 @@ Polymer('modal-delete', {
      },
      delete: function(){
       var self = this;
+      console.log(this.list);
       this.service.delete(_.clone(this.object));
       this.$.delete.toggle();
-      this.app.alert('Fm deleted ! ');
-      this.service.addEventListener('element-deleted', function(){
-        self.app.navigateTo(self.parent);
+      this.service.addEventListener('element-deleted', function(event){
+        console.log(self.list);
+        self.list = _.without(self.list, _.find(self.list, self.object));
+        console.log(self.list);
+        self.app.alert('Fm deleted ! ');
+        event.stopImmediatePropagation();
         return;
       });
       return;

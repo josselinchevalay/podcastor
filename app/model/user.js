@@ -57,9 +57,18 @@ function add(user) {
   return;
 };
 
+function update(user) {
+   _db
+    .chain()
+    .find({uid: user.uid, type:'User' })
+    .assign(user)
+    .value(); // update user
+};
+
 module.exports = {
   all: all,
   add: add,
   findByUID: findByUID,
-  findByAuth: findByAuth
+  findByAuth: findByAuth,
+  update: update
 };

@@ -5,8 +5,9 @@
 
 var _         = require('underscore')
 var database  = require('../../config/config')
-var hydrator  = require('../hydrator/');
+var hydrator  = require('../hydrator/')
 var _db       = database.Db('PodCastor')
+var userModel = require('./user.js');
 
 function load() {
   return _db.where({
@@ -24,7 +25,8 @@ function all() {
       'like': hydrator.lazyLoad('User', row.like),
       'dislike': hydrator.lazyLoad('User', row.dislike),
       'followers': hydrator.lazyLoad('User', row.followers),
-      'podcast': row.podcast
+      'podcast': hydrator.lazyLoad('PodCast', row.followers),
+      'type': row.type
     };
   });
 };
@@ -68,16 +70,12 @@ function update(object){
 };
 
 function remove(object){
-  object.author.fms = _.without(object.author.fms, object); // erease relation between Author => fm
-  _db
-    .chain()
-    .find({uid: object.author.uid, type:'User' })
-    .assign(object.author)
-    .value(); // update user
-  
-  _db.remove(_db.find({uid: object.uid, type:'Fm'}));
+  var authorMapped = userModel.findByUID(object.author.uid);
+  authorMapped.fms = _.without(authorMapped.fms,  _.find(authorMapped.fms, {uid:object.uid, type:'Fm'}));
+  console.log(object);
+  userModel.update(authorMapped);
+  _db.remove({uid:object.uid, type:'Fm'});
   database.Db.save();
-   
   return;
 }
 

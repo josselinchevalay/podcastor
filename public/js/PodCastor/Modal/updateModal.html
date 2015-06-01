@@ -13,7 +13,7 @@ Modal
 <link rel="import" href="../../../libs/paper-icon-button/paper-icon-button.html">
 
 
-<polymer-element name="modal-update" attributes="parent object service properties">
+<polymer-element name="modal-update" attributes="parent object service properties list">
 <style>
 </style>
 <template>
@@ -26,7 +26,7 @@ Modal
       <template repeat="{{key, index in properties| filterKeys}}">        
             <paper-field> 
                   <template if="{{properties[key].type == 'text'}}">
-                        <paper-input type="text" value="{{ object[key] }}"></paper-input>
+                        <paper-input type="text" value="{{ object[key] }}" label="{{key}}" floatinglabel=""></paper-input>
                   </template>                                                                 
             </paper-field>
       </template>
@@ -68,8 +68,10 @@ Polymer('modal-update', {
       this.$.update.close = true;
       this.$.update.toggle();
       this.app.alert('FM updated !');
-      this.service.addEventListener('element-updated', function(){
-            self.app.navigateTo(self.parent);
+      this.service.addEventListener('element-updated', function(event){
+            
+            event.stopImmediatePropagation();
+            return;
       });
       return;
      },

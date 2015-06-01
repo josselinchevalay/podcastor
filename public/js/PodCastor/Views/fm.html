@@ -32,25 +32,26 @@ View login
       <div>
         <div class="search">
           <span> Desgin Search </span>
-          <modal-add object="{{returnObject()}}" service="{{service}}" parent="Fm" properties="{{propertiesMap}}"></modal-update>
+          <modal-add object="{{returnObject()}}" service="{{service}}" parent="Fm" properties="{{propertiesMap}}" list="{{fms}}"></modal-update>
         </div>
         <div class="table">
           <template repeat="{{fm in fms}}">
-            <components-fm object='{{fm}}' visualisation='mini' class="fm" parent="Fm"></components-fm>
+            <components-fm object='{{fm}}' visualisation='mini' class="fm" parent="Fm" list="{{fms}}"></components-fm>
           </template>
         </div>
   </template>
   <script>
     Polymer("view-fm", {
-      ready: function() {
+      ready: function(event) {
         var self = this;
         this.service.addEventListener('service-fm-get', function(event) {
+          event.stopImmediatePropagation();
           self.fms = self.service.fm;
         });
       },
       returnObject: function(){
        this.init();
-        return this.service.createEntity(this.app.Storage.User);
+        return _.clone(this.service.createEntity(this.app.Storage.User));
       },
       init: function(){
         this.app = document.getElementById('app');

@@ -13,7 +13,7 @@ Modal
 <link rel="import" href="../../../libs/paper-icon-button/paper-icon-button.html">
 
 
-<polymer-element name="modal-add" attributes="parent object service properties">
+<polymer-element name="modal-add" attributes="parent object service properties list">
 <style>
 </style>
 <template>
@@ -26,7 +26,7 @@ Modal
       <template repeat="{{key, index in properties| filterKeys}}">        
             <paper-field> 
                   <template if="{{properties[key].type == 'text'}}">
-                        <paper-input type="text" value="{{ object[key] }}"></paper-input>
+                        <paper-input type="text" value="{{ object[key] }}" label="{{key}}" floatinglabel=""></paper-input>
                   </template>                                                                 
             </paper-field>
       </template>
@@ -65,17 +65,20 @@ Polymer('modal-add', {
      },
      filterKeys: function()
       {
-          console.log(this.properties);
           return Object.keys(this.properties);
       },
       create: function(){
-        var self = this;
-      this.service.post(_.clone(this.object));
+      var self = this;
+      this.service.post(_.clone(this.object)); // detach too
       this.$.create.close = true;
       this.$.create.toggle();
       this.app.alert('FM created !');
-      this.service.addEventListener('service-fm-post', function(){
-            self.app.navigateTo(self.parent);
+      this.service.addEventListener('service-fm-post', function(event){
+            self.list.push(_.clone(self.object)); // detach instation
+            self.object.name = "";
+            self.object.description ="";
+            event.stopImmediatePropagation();           
+            return;
       });
       return;
       }

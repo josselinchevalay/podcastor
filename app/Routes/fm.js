@@ -14,7 +14,6 @@ function ensureAuthenticated(req, res, next) {
 
 module.exports = function(app, passport) {
   app.post(path, ensureAuthenticated, function(req, resp) {
-    console.log(req.body);
     var fm = model.convert(req.body);
     fm.uid = uuid.v4();
     model.add(fm);
